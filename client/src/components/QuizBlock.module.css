@@ -303,7 +303,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .successTitle {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'BebasNeueCyrillic', sans-serif;
   font-weight: 700;
   font-size: 2rem;
   color: #0a0a0a;

@@ -34,14 +34,30 @@
   overflow: hidden;
 }
 
+.headingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 24px;
+}
+
 .heading {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'BebasNeueCyrillic', sans-serif;
   font-weight: 700;
   font-size: clamp(2.2rem, 4vw, 4rem);
   line-height: 1;
   letter-spacing: 0.02em;
   color: #0a0a0a;
-  margin: 0 0 24px;
+  margin: 0;
+}
+
+.star {
+  width: clamp(80px, 8vw, 128px);
+  height: clamp(80px, 8vw, 128px);
+  object-fit: contain;
+  transition: transform 0.1s linear;
+  will-change: transform;
+  margin-right: 2vw;
 }
 
 .body {

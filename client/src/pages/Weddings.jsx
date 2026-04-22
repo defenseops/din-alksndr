@@ -8,13 +8,17 @@ import GalleryBlock from '../components/GalleryBlock';
 import QuizBlock from '../components/QuizBlock';
 import QuizModal from '../components/QuizModal';
 import BenefitsBlock from '../components/BenefitsBlock';
+import ReviewsBlock from '../components/ReviewsBlock';
 import NavMenu from '../components/NavMenu';
 import styles from './Weddings.module.css';
+
+const YT_ID = 'nmjFyDe8vcw';
 
 export default function Weddings() {
   const [introDone, setIntroDone] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [videoOpen, setVideoOpen] = useState(false);
 
   return (
     <>
@@ -27,6 +31,20 @@ export default function Weddings() {
 
       <NavMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
       <QuizModal open={quizOpen} onClose={() => setQuizOpen(false)} />
+
+      {videoOpen && (
+        <div className={styles.videoModal} onClick={() => setVideoOpen(false)}>
+          <div className={styles.videoModalInner} onClick={e => e.stopPropagation()}>
+            <button className={styles.videoModalClose} onClick={() => setVideoOpen(false)}>✕</button>
+            <iframe
+              src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1`}
+              allow="autoplay; fullscreen"
+              allowFullScreen
+              className={styles.videoModalIframe}
+            />
+          </div>
+        </div>
+      )}
 
       <section className={styles.weddings}>
         <div className={styles.bgWrap}>
@@ -51,7 +69,7 @@ export default function Weddings() {
         </div>
 
         <div className={styles.playWrap}>
-          <PlayButton />
+          <PlayButton onClick={() => setVideoOpen(true)} />
         </div>
       </section>
 
@@ -64,6 +82,7 @@ export default function Weddings() {
       <GalleryBlock />
       <QuizBlock />
       <BenefitsBlock />
+      <ReviewsBlock />
     </>
   );
 }

@@ -20,6 +20,8 @@ const TEXT = `Привет!
 
 export default function AboutBlock() {
   const textRef = useRef(null);
+  const starRef = useRef(null);
+  const rotationRef = useRef(0);
   const photoRef = useReveal();
   const contentRef = useReveal();
 
@@ -35,6 +37,11 @@ export default function AboutBlock() {
 
       e.preventDefault();
       el.scrollTop += e.deltaY;
+
+      rotationRef.current += e.deltaY * 0.3;
+      if (starRef.current) {
+        starRef.current.style.transform = `rotate(${rotationRef.current}deg)`;
+      }
     };
 
     el.addEventListener('wheel', onWheel, { passive: false });
@@ -49,7 +56,10 @@ export default function AboutBlock() {
       </div>
 
       <div className={`${styles.textWrap} reveal-right`} ref={contentRef}>
-        <h2 className={styles.heading}>ОБО МНЕ</h2>
+        <div className={styles.headingRow}>
+          <h2 className={styles.heading}>ОБО МНЕ</h2>
+          <img src="/icon-star.png" alt="" className={styles.star} ref={starRef} />
+        </div>
         <div className={styles.body} ref={textRef}>
           {TEXT.split('\n').map((line, i) => (
             <p key={i} className={styles.line}>{line}</p>

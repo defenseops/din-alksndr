@@ -54,10 +54,6 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.scrollHint}>
-        <span>scroll</span>
-        <div className={styles.scrollLine} />
-      </div>
     </main>
   );
 }

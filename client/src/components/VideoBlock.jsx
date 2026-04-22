@@ -2,8 +2,8 @@ import useReveal from '../hooks/useReveal';
 import styles from './VideoBlock.module.css';
 
 const VIDEOS = [
-  '14iWwYhYJ8-TrPIXyO6cFwCCpNRBFtBnS',
-  '1fwZAhNBt_2_umFNwx4RIFoGHNS5iatMt',
+  { type: 'youtube', id: 'nmjFyDe8vcw' },
+  { type: 'youtube', id: 'e3RR05vjtUI' },
 ];
 
 export default function VideoBlock() {
@@ -11,16 +11,20 @@ export default function VideoBlock() {
   return (
     <section className={styles.section}>
       <div className={`${styles.track} reveal-up`} ref={ref}>
-        {VIDEOS.map((id, i) => (
+        {VIDEOS.map((v, i) => (
           <div
-            key={id}
+            key={v.id}
             className={styles.videoWrap}
             style={{ transitionDelay: `${i * 150}ms` }}
           >
             <iframe
               className={styles.iframe}
-              src={`https://drive.google.com/file/d/${id}/preview`}
-              allow="autoplay"
+              src={
+                v.type === 'youtube'
+                  ? `https://www.youtube.com/embed/${v.id}`
+                  : `https://drive.google.com/file/d/${v.id}/preview`
+              }
+              allow="autoplay; fullscreen"
               allowFullScreen
             />
           </div>
