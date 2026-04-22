@@ -1,0 +1,111 @@
+.heroScroll {
+  position: relative;
+  width: 100%;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.titleBlock {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 8vh 0 4vh;
+  width: 100%;
+  pointer-events: none;
+}
+
+.title {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  letter-spacing: 0.06em;
+  color: #fff;
+  margin: 0;
+  line-height: 1;
+}
+
+.subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.75rem, 1.2vw, 1rem);
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 12px 0 0;
+  text-transform: uppercase;
+}
+
+.photoArea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.circle {
+  position: absolute;
+  width: 70vh;
+  height: 70vh;
+  background: #c01515;
+  border-radius: 50%;
+  transition: none;
+  z-index: 1;
+  margin-top: 43vh;
+}
+
+.photo {
+  position: relative;
+  z-index: 2;
+  height: 72vh;
+  width: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  display: block;
+  margin-top: 43vh;
+}
+
+/* hamburger */
+.hamburger {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 99;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #c01515;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0;
+  transition: background 0.2s;
+}
+
+.hamburger:hover {
+  background: #a82020;
+}
+
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}

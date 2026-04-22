@@ -1,0 +1,78 @@
+.marquee {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  background: #fff;
+  padding: 50px 0 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.rowWrap {
+  overflow: hidden;
+  width: 100%;
+  /* маски по краям — плавное исчезновение */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+.track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  will-change: transform;
+}
+
+.trackLeft {
+  animation: scrollLeft 22s linear infinite;
+}
+
+.trackRight {
+  animation: scrollRight 22s linear infinite;
+}
+
+.tag {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+  letter-spacing: 0.05em;
+  color: #0a0a0a;
+  white-space: nowrap;
+  background: #fff;
+  border: 1px solid #0a0a0a;
+  border-radius: 100px;
+  padding: 12px 40px;
+  flex-shrink: 0;
+  cursor: default;
+  transition: background 0.3s, color 0.3s;
+}
+
+.tag:hover {
+  background: #0a0a0a;
+  color: #fff;
+}
+
+@keyframes scrollLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes scrollRight {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}

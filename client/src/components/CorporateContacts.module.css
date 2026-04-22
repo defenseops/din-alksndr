@@ -1,0 +1,62 @@
+.section {
+  background: #0a0a0a;
+  padding: 100px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.heading {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  letter-spacing: 0.12em;
+  color: #fff;
+  margin: 0;
+}
+
+.phone {
+  background: #c01515;
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  padding: 18px 56px;
+  border-radius: 100px;
+  transition: background 0.2s ease;
+}
+
+.phone:hover {
+  background: #a01010;
+}
+
+.socials {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #1e1e1e;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.icon:hover {
+  background: #333;
+}

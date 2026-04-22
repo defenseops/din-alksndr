@@ -1,0 +1,225 @@
+.home {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.bgWrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.bgImg {
+  position: absolute;
+  height: 270%;
+  width: auto;
+  top: -80%;
+  left: -12%;
+  filter: brightness(0.75);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.1) 60%,
+    transparent 100%
+  );
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  padding-right: 7vw;
+  text-align: right;
+}
+
+.subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.7rem, 1.2vw, 1rem);
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin: 0 0 16px;
+  opacity: 0;
+}
+
+.name {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: clamp(3.5rem, 8vw, 7rem);
+  line-height: 0.95;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  margin: 0;
+  opacity: 0;
+  text-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+}
+
+.divider {
+  width: 60px;
+  height: 1px;
+  background: #c9a96e;
+  margin: 28px 0 28px auto;
+  opacity: 1;
+  transform-origin: right center;
+}
+
+.chooseLabel {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+  font-size: clamp(0.65rem, 1vw, 0.85rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 20px;
+}
+
+.buttons {
+  display: flex;
+  gap: 16px;
+  opacity: 0;
+}
+
+.btnOutline,
+.btnFilled {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.7rem, 1vw, 0.85rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 14px 32px;
+  transition: all 0.35s ease;
+  cursor: pointer;
+}
+
+.btnOutline {
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  background: transparent;
+}
+
+.btnOutline:hover {
+  border-color: #c9a96e;
+  color: #c9a96e;
+}
+
+.btnFilled {
+  background: #c9a96e;
+  border: 1px solid #c9a96e;
+  color: #0a0a0a;
+}
+
+.btnFilled:hover {
+  background: transparent;
+  color: #c9a96e;
+}
+
+.scrollHint {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.scrollLine {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.35), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50% { opacity: 1; transform: scaleY(1.15); }
+}
+
+
+@media (max-width: 1024px) {
+  .bgImg {
+    height: 100%;
+    width: auto;
+    top: 0;
+    left: 50%;
+    transform: translateX(-60%);
+  }
+
+  .content {
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 0 48px;
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+
+  .name {
+    font-size: clamp(3rem, 13vw, 5rem);
+    letter-spacing: 0.03em;
+    margin-bottom: 0;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .chooseLabel {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    margin: 32px 0 16px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 12px;
+    width: calc(100% - 48px);
+  }
+
+  .btnOutline,
+  .btnFilled {
+    width: 100%;
+    text-align: center;
+    padding: 20px 32px;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    border-radius: 100px;
+  }
+
+  .btnOutline {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: transparent;
+    color: #0a0a0a;
+  }
+
+  .btnFilled {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: transparent;
+    color: #0a0a0a;
+  }
+}
