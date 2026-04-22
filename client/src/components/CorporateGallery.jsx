@@ -20,14 +20,14 @@ export default function CorporateGallery() {
       <div className={styles.row1}>
         {ROW1.map((item, i) => (
           <div key={i} className={`${styles.cell} ${item.wide ? styles.wide : ''}`}>
-            <img src={item.src} alt="" className={styles.img} />
+            <img src={item.src} alt="" className={styles.img} loading="lazy" decoding="async" />
           </div>
         ))}
       </div>
       <div className={styles.row2}>
         {ROW2.map((item, i) => (
           <div key={i} className={styles.cell}>
-            <img src={item.src} alt="" className={styles.img} />
+            <img src={item.src} alt="" className={styles.img} loading="lazy" decoding="async" />
           </div>
         ))}
       </div>

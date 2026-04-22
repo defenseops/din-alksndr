@@ -44,7 +44,7 @@ export default function GalleryBlock() {
             style={{ transitionDelay: `${(i % 4) * 100}ms` }}
             ref={(el) => (itemsRef.current[i] = el)}
           >
-            <img src={src} alt="" className={styles.img} />
+            <img src={src} alt="" className={styles.img} loading="lazy" decoding="async" />
           </div>
         ))}
       </div>
