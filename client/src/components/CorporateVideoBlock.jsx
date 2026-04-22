@@ -4,12 +4,19 @@ const VIDEOS = [
   {
     id: 'KIxyo6xL3pTT4Q',
     title: 'КОРПОРАТИВ\nДЛЯ BCC',
+    type: 'yandex',
   },
-  // второе видео будет добавлено позже
+  {
+    id: '680OIw2WA1A',
+    title: 'КОРПОРАТИВ\nДЛЯ BCC',
+    type: 'youtube',
+  },
 ];
 
-function VideoCard({ id, title }) {
-  const embedUrl = `https://disk.yandex.ru/video/embed/${id}`;
+function VideoCard({ id, title, type }) {
+  const embedUrl = type === 'youtube'
+    ? `https://www.youtube.com/embed/${id}`
+    : `https://disk.yandex.ru/video/embed/${id}`;
 
   return (
     <div className={styles.card}>
