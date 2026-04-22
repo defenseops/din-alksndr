@@ -61,10 +61,7 @@ export default function CorporateBenefits() {
 
       <div className={styles.center}>
         <div className={styles.counterWrap}>
-          <div
-            key={active}
-            className={`${styles.counterNum} ${animating ? (dir === 'down' ? styles.slideInDown : styles.slideInUp) : ''}`}
-          >
+          <div key={active} className={styles.counterNum}>
             {active + 1}
           </div>
         </div>
