@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import useReveal from '../hooks/useReveal';
 import styles from './AboutBlock.module.css';
 
@@ -24,28 +24,29 @@ export default function AboutBlock() {
   const rotationRef = useRef(0);
   const photoRef = useReveal();
   const contentRef = useReveal();
+  const [atBottom, setAtBottom] = useState(false);
 
   useEffect(() => {
     const el = textRef.current;
     if (!el) return;
 
+    const onScroll = () => {
+      setAtBottom(el.scrollTop + el.clientHeight >= el.scrollHeight - 4);
+    };
+
     const onWheel = (e) => {
-      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
-      const atTop = el.scrollTop <= 0;
-
-      if ((e.deltaY > 0 && atBottom) || (e.deltaY < 0 && atTop)) return;
-
-      e.preventDefault();
-      el.scrollTop += e.deltaY;
-
       rotationRef.current += e.deltaY * 0.3;
       if (starRef.current) {
         starRef.current.style.transform = `rotate(${rotationRef.current}deg)`;
       }
     };
 
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
+    el.addEventListener('scroll', onScroll, { passive: true });
+    el.addEventListener('wheel', onWheel, { passive: true });
+    return () => {
+      el.removeEventListener('scroll', onScroll);
+      el.removeEventListener('wheel', onWheel);
+    };
   }, []);
 
   return (
@@ -60,10 +61,19 @@ export default function AboutBlock() {
           <h2 className={styles.heading}>ОБО МНЕ</h2>
           <img src="/icon-star.png" alt="" className={styles.star} ref={starRef} />
         </div>
-        <div className={styles.body} ref={textRef}>
-          {TEXT.split('\n').map((line, i) => (
-            <p key={i} className={styles.line}>{line}</p>
-          ))}
+        <div className={styles.bodyWrap}>
+          <div className={styles.body} ref={textRef}>
+            {TEXT.split('\n').map((line, i) => (
+              <p key={i} className={styles.line}>{line}</p>
+            ))}
+          </div>
+          {!atBottom && (
+            <div className={styles.scrollHint}>
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+          )}
         </div>
       </div>
     </section>

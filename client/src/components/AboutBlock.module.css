@@ -60,17 +60,60 @@
   margin-right: 2vw;
 }
 
+.bodyWrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .body {
   display: flex;
   flex-direction: column;
   gap: 20px;
   overflow-y: auto;
   flex: 1;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: #aaa transparent;
+}
+
+.scrollHint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 12px;
+  height: 80px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 10px;
+  background: linear-gradient(to bottom, transparent, #fff 60%);
+  color: #333;
+  pointer-events: none;
+  animation: bounce 1.4s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
 }
 
 .body::-webkit-scrollbar {
-  display: none;
+  width: 4px;
+}
+
+.body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.body::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 2px;
+}
+
+.body::-webkit-scrollbar-thumb:hover {
+  background: #888;
 }
 
 .line {
@@ -117,23 +160,33 @@
   }
 
   .textWrap {
-    height: auto;
-    padding: 0 24px 48px;
-    overflow: visible;
+    height: 70vh;
+    padding: 0 24px 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
-  .heading {
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    background: #fff;
-    font-size: clamp(2rem, 8vw, 3rem);
-    margin: 0;
+  .headingRow {
+    flex-shrink: 0;
     padding: 24px 0 16px;
   }
 
+  .heading {
+    position: static;
+    font-size: clamp(2rem, 8vw, 3rem);
+    margin: 0;
+    padding: 0;
+  }
+
+  .bodyWrap {
+    flex: 1;
+    min-height: 0;
+  }
+
   .body {
-    overflow-y: visible;
+    overflow-y: auto;
+    flex: 1;
     gap: 14px;
   }
 
