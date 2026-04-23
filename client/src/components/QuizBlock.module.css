@@ -318,6 +318,56 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin: 0;
 }
 
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 100;
+  padding: 6px 0;
+  list-style: none;
+  margin: 0;
+}
+
+.dropdownItem {
+  padding: 10px 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  color: #0a0a0a;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.dropdownItem:hover {
+  background: #f3f3f3;
+}
+
+.inputError {
+  border: 1.5px solid #c01515 !important;
+  background: #fff5f5 !important;
+}
+
+.radioError .radioCustom {
+  border-color: #c01515;
+}
+
+.checkError {
+  border-color: #c01515 !important;
+}
+
+.fieldError {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  color: #c01515;
+  margin-top: -8px;
+}
+
 .errorMsg {
   font-family: 'Montserrat', sans-serif;
   font-size: 0.85rem;

@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import useReveal from '../hooks/useReveal';
 import styles from './QuizBlock.module.css';
 
 const TOTAL = 3;
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+
+const KZ_CITIES = [
+  'Алматы', 'Астана', 'Шымкент', 'Актобе', 'Тараз', 'Павлодар', 'Усть-Каменогорск',
+  'Семей', 'Атырау', 'Костанай', 'Кызылорда', 'Уральск', 'Петропавловск', 'Актау',
+  'Темиртау', 'Туркестан', 'Кокшетау', 'Талдыкорган', 'Экибастуз', 'Рудный',
+  'Жезказган', 'Балхаш', 'Сатпаев', 'Кентау', 'Жанаозен', 'Байконур',
+];
 
 async function sendToTelegram(data, source) {
   const res = await fetch(`${API_URL}/api/lead`, {
@@ -22,16 +29,49 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const [data, setData] = useState({
     date: '', city: '', guests: '', name: '', phone: '', contact: '', consent: false,
   });
+  const [cityInput, setCityInput] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const cityRef = useRef(null);
 
-  const set = (field, value) => setData(prev => ({ ...prev, [field]: value }));
+  const filteredCities = KZ_CITIES.filter(c =>
+    c.toLowerCase().includes(cityInput.toLowerCase()) && cityInput.length > 0
+  );
+
+  useEffect(() => {
+    const onClickOutside = (e) => {
+      if (cityRef.current && !cityRef.current.contains(e.target)) {
+        setShowDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
+  }, []);
+
+  const set = (field, value) => {
+    setData(prev => ({ ...prev, [field]: value }));
+    setErrors(prev => ({ ...prev, [field]: false }));
+  };
+
+  const validate3 = () => {
+    const e = {};
+    if (!data.name.trim()) e.name = true;
+    if (data.phone.replace(/\D/g, '').length !== 10) e.phone = true;
+    if (!data.contact) e.contact = true;
+    if (!data.consent) e.consent = true;
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
   const next = () => setStep(s => Math.min(s + 1, TOTAL));
   const prev = () => setStep(s => Math.max(s - 1, 1));
   const cardRef = useReveal();
 
   const handleSubmit = async () => {
+    if (!validate3()) return;
     setLoading(true);
     setError(false);
     try {
@@ -81,14 +121,37 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                       <span className={styles.labelMain}>Место проведения</span>
                       <span className={styles.labelSub}>Ответьте по желанию</span>
                     </div>
-                    <div className={styles.inputWrap}>
+                    <div className={styles.inputWrap} ref={cityRef} style={{ position: 'relative' }}>
                       <input
                         type="text"
                         className={styles.input}
-                        value={data.city}
-                        onChange={e => set('city', e.target.value)}
+                        value={cityInput}
+                        onChange={e => {
+                          setCityInput(e.target.value);
+                          set('city', e.target.value);
+                          setShowDropdown(true);
+                        }}
+                        onFocus={() => setShowDropdown(true)}
                         placeholder="Укажите город"
+                        autoComplete="off"
                       />
+                      {showDropdown && filteredCities.length > 0 && (
+                        <ul className={styles.dropdown}>
+                          {filteredCities.map(city => (
+                            <li
+                              key={city}
+                              className={styles.dropdownItem}
+                              onMouseDown={() => {
+                                setCityInput(city);
+                                set('city', city);
+                                setShowDropdown(false);
+                              }}
+                            >
+                              {city}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
                   </div>
                 </>
@@ -127,22 +190,32 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                   <div className={styles.contactFields}>
                     <input
                       type="text"
-                      className={styles.input}
+                      className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
                       value={data.name}
                       onChange={e => set('name', e.target.value)}
-                      placeholder="Ваше имя"
+                      placeholder="Ваше имя *"
                     />
-                    <div className={styles.phoneWrap}>
+                    <div className={`${styles.phoneWrap} ${errors.phone ? styles.inputError : ''}`}>
                       <span className={styles.phonePrefix}>🇰🇿 +7</span>
                       <input
                         type="tel"
                         className={`${styles.input} ${styles.phoneInput}`}
                         value={data.phone}
-                        onChange={e => set('phone', e.target.value)}
-                        placeholder="(000) 000-00-00"
+                        onChange={e => {
+                          const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                          let masked = '';
+                          if (digits.length > 0) masked = '(' + digits.slice(0, 3);
+                          if (digits.length >= 4) masked += ') ' + digits.slice(3, 6);
+                          if (digits.length >= 7) masked += '-' + digits.slice(6, 8);
+                          if (digits.length >= 9) masked += '-' + digits.slice(8, 10);
+                          set('phone', masked);
+                        }}
+                        placeholder="(000) 000-00-00 *"
+                        maxLength={15}
                       />
                     </div>
-                    <div className={styles.radioGrid}>
+                    {errors.phone && <span className={styles.fieldError}>Введите полный номер: (000) 000-00-00</span>}
+                    <div className={`${styles.radioGrid} ${errors.contact ? styles.radioError : ''}`}>
                       {['Отправить в Telegram', 'Отправить в WhatsApp', 'Позвонить лично'].map(val => (
                         <label key={val} className={styles.radioLabel}>
                           <input
@@ -158,6 +231,7 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                         </label>
                       ))}
                     </div>
+                    {errors.contact && <span className={styles.fieldError}>Выберите способ связи</span>}
                     <label className={styles.checkLabel}>
                       <input
                         type="checkbox"
@@ -165,9 +239,9 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                         onChange={e => set('consent', e.target.checked)}
                         className={styles.checkInput}
                       />
-                      <span className={styles.checkCustom} />
+                      <span className={`${styles.checkCustom} ${errors.consent ? styles.checkError : ''}`} />
                       <span className={styles.checkText}>
-                        Я даю согласие на обработку персональных данных
+                        Я даю согласие на обработку персональных данных *
                       </span>
                     </label>
                   </div>
@@ -193,7 +267,7 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                   <button
                     className={styles.nextBtn}
                     onClick={handleSubmit}
-                    disabled={loading || !data.consent}
+                    disabled={loading}
                   >
                     {loading ? 'Отправка...' : 'Отправить заявку →'}
                   </button>
