@@ -1,0 +1,38 @@
+.section {
+  background: #fff;
+  padding: 120px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 52px;
+  text-align: center;
+}
+
+.heading {
+  font-family: 'BebasNeueCyrillic', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 4vw, 4rem);
+  color: #0a0a0a;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.btn {
+  background: #c9a96e;
+  color: #0a0a0a;
+  border: none;
+  border-radius: 14px;
+  padding: 24px 80px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition: background 0.2s ease;
+}
+
+.btn:hover {
+  background: #b8914f;
+}

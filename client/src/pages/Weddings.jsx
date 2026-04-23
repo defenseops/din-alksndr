@@ -9,6 +9,8 @@ import QuizBlock from '../components/QuizBlock';
 import QuizModal from '../components/QuizModal';
 import BenefitsBlock from '../components/BenefitsBlock';
 import ReviewsBlock from '../components/ReviewsBlock';
+import WeddingsCTA from '../components/WeddingsCTA';
+import WeddingsContacts from '../components/WeddingsContacts';
 import NavMenu from '../components/NavMenu';
 import styles from './Weddings.module.css';
 
@@ -83,6 +85,8 @@ export default function Weddings() {
       <QuizBlock />
       <BenefitsBlock />
       <ReviewsBlock />
+      <WeddingsCTA />
+      <WeddingsContacts />
     </>
   );
 }

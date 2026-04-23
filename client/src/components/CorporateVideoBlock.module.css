@@ -48,7 +48,7 @@
 .watermark {
   font-family: 'BebasNeueCyrillic', sans-serif;
   font-size: 1.4rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.01em;
   color: rgba(255, 255, 255, 0.75);
   line-height: 1.2;
   text-shadow: 0 2px 8px rgba(0,0,0,0.5);

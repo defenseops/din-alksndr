@@ -32,6 +32,7 @@
   will-change: opacity, transform;
   backface-visibility: hidden;
   background: #fff;
+  cursor: pointer;
 }
 
 .item.visible {

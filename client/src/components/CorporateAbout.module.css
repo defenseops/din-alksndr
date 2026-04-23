@@ -49,6 +49,8 @@
   font-size: 0.78rem;
   color: #000;
   letter-spacing: 0;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .location {

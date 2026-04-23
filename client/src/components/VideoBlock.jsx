@@ -4,6 +4,7 @@ import styles from './VideoBlock.module.css';
 const VIDEOS = [
   { type: 'youtube', id: 'nmjFyDe8vcw' },
   { type: 'youtube', id: 'e3RR05vjtUI' },
+  { type: 'youtube', id: '3rP4H7U-AYk' },
 ];
 
 export default function VideoBlock() {

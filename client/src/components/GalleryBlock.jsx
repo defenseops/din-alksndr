@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './GalleryBlock.module.css';
+import Lightbox from './Lightbox';
 
 const PHOTOS = [
   '/gallery/00342.jpg',
@@ -16,6 +17,7 @@ const PHOTOS = [
 
 export default function GalleryBlock() {
   const itemsRef = useRef([]);
+  const [lightboxIndex, setLightboxIndex] = useState(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -35,19 +37,31 @@ export default function GalleryBlock() {
   }, []);
 
   return (
-    <section className={styles.section}>
-      <div className={styles.grid}>
-        {PHOTOS.map((src, i) => (
-          <div
-            key={i}
-            className={styles.item}
-            style={{ transitionDelay: `${(i % 4) * 100}ms` }}
-            ref={(el) => (itemsRef.current[i] = el)}
-          >
-            <img src={src} alt="" className={styles.img} loading="lazy" decoding="async" />
-          </div>
-        ))}
-      </div>
-    </section>
+    <>
+      <section className={styles.section}>
+        <div className={styles.grid}>
+          {PHOTOS.map((src, i) => (
+            <div
+              key={i}
+              className={styles.item}
+              style={{ transitionDelay: `${(i % 4) * 100}ms` }}
+              ref={(el) => (itemsRef.current[i] = el)}
+              onClick={() => setLightboxIndex(i)}
+            >
+              <img src={src} alt="" className={styles.img} loading="lazy" decoding="async" />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {lightboxIndex !== null && (
+        <Lightbox
+          photos={PHOTOS}
+          index={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onNav={setLightboxIndex}
+        />
+      )}
+    </>
   );
 }
