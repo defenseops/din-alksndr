@@ -23,7 +23,7 @@ export default function CorporateAbout() {
       <div className={styles.inner}>
         <div className={styles.card}>
           <div className={styles.cardHeader}>
-            <div className={styles.avatar} />
+            <img src="/avatar.jpg" alt="Александр Дин" className={styles.avatar} />
             <div className={styles.headerInfo}>
               <a href="https://www.instagram.com/din.alksndr?igsh=Nm05aW14ZXBuMjUz" target="_blank" rel="noopener noreferrer" className={styles.username}>din.alksndr</a>
               <span className={styles.location}>Алматы, Казахстан</span>
