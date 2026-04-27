@@ -10,7 +10,19 @@ const PORT = process.env.PORT || 3001;
 
 // ── Security headers ──────────────────────────────────────────
 app.use(helmet({
-  crossOriginResourcePolicy: { policy: 'same-site' },
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", 'https://mc.yandex.ru'],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+      imgSrc: ["'self'", 'data:', 'https:', 'https://mc.yandex.ru'],
+      frameSrc: ['https://www.youtube.com', 'https://youtube.com', 'https://disk.yandex.ru', 'https://disk.yandex.kz'],
+      connectSrc: ["'self'", 'https://mc.yandex.ru'],
+      mediaSrc: ["'self'", 'https:'],
+    },
+  },
 }));
 
 // ── CORS — только свой домен ──────────────────────────────────
