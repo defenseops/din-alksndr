@@ -2,9 +2,9 @@ import styles from './CorporateVideoBlock.module.css';
 
 const VIDEOS = [
   {
-    id: '680OIw2WA1A',
+    id: 'KIxyo6xL3pTT4Q',
     title: 'КОРПОРАТИВ\nДЛЯ BCC',
-    type: 'youtube',
+    type: 'yandex',
   },
 ];
 
