@@ -3,9 +3,9 @@ import styles from './CorporateGallery.module.css';
 import Lightbox from './Lightbox';
 
 const ROW1 = [
-  { src: '/gallery-corp/img1.jpg', wide: false },
-  { src: '/gallery-corp/img2.jpg', wide: true  },
   { src: '/gallery-corp/img3.jpg', wide: false },
+  { src: '/gallery-corp/img2.jpg', wide: true  },
+  { src: '/gallery-corp/img1.jpg', wide: false },
 ];
 
 const ROW2 = [
