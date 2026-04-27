@@ -37,7 +37,7 @@ export default function CorporateAbout() {
           <div className={styles.actions}>
             <div className={styles.leftActions}>
               <button
-                className={`${styles.actionBtn} ${liked ? styles.liked : ''}`}
+                className={`${styles.actionBtn} ${styles.likeBtn} ${liked ? styles.liked : ''}`}
                 onClick={handleLike}
                 aria-label="Лайк"
               >
