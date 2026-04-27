@@ -36,12 +36,12 @@
   }
 
   .track {
-    gap: 16px;
-    padding: 0 16px;
+    gap: 12px;
+    padding: 0 16px 0 16px;
   }
 
   .videoWrap {
-    flex: 0 0 calc(100vw - 32px);
+    flex: 0 0 82vw;
   }
 }
 
