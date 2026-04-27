@@ -106,7 +106,7 @@ app.post('/api/lead', formLimiter, async (req, res) => {
 // ── Статика клиента (в продакшене) ───────────────────────────
 const clientDist = path.join(__dirname, '../client/dist');
 app.use(express.static(clientDist));
-app.get('*', (req, res) => {
+app.get('/{*path}', (req, res) => {
   res.sendFile(path.join(clientDist, 'index.html'));
 });
 
