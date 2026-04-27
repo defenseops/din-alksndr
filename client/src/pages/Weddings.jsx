@@ -49,7 +49,8 @@ export default function Weddings() {
             <button className={styles.videoModalClose} onClick={() => setVideoOpen(false)}>✕</button>
             <iframe
               src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1`}
-              allow="autoplay; fullscreen"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
               className={styles.videoModalIframe}
             />

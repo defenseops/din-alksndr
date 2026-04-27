@@ -25,7 +25,8 @@ export default function VideoBlock() {
                   ? `https://www.youtube.com/embed/${v.id}`
                   : `https://drive.google.com/file/d/${v.id}/preview`
               }
-              allow="autoplay; fullscreen"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
             />
           </div>

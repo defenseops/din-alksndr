@@ -27,7 +27,8 @@ export default function ReviewsBlock() {
             <div className={styles.iframeWrap}>
               <iframe
                 src={`https://www.youtube.com/embed/${r.id}`}
-                allow="autoplay; fullscreen"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen
                 className={styles.iframe}
                 loading="lazy"
