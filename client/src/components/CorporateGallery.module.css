@@ -47,24 +47,41 @@
 
 @media (max-width: 768px) {
   .section {
-    padding: 0 16px 60px;
+    padding: 0 12px 60px;
+    gap: 8px;
   }
 
   .row1 {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
+    gap: 8px;
+  }
+
+  .row1 .cell:first-child {
+    grid-column: 1;
+    grid-row: 1;
+    aspect-ratio: 3/4;
   }
 
   .row1 .cell.wide {
     grid-column: 1 / -1;
+    grid-row: 2;
     aspect-ratio: 16/9;
   }
 
+  .row1 .cell:last-child {
+    grid-column: 2;
+    grid-row: 1;
+    aspect-ratio: 3/4;
+  }
+
   .row2 {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
   }
 
   .row2 .cell:last-child {
     grid-column: 1 / -1;
+    aspect-ratio: 16/9;
   }
 }
