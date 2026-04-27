@@ -140,6 +140,15 @@
   color: #f5a623;
 }
 
+.likeHint {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.68rem;
+  color: #ed4956;
+  padding: 0 14px 2px;
+  transition: opacity 0.4s ease;
+  font-style: italic;
+}
+
 .thanks {
   font-family: 'Montserrat', sans-serif;
   font-size: 0.7rem;
