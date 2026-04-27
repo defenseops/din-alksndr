@@ -52,19 +52,18 @@ function sanitize(str, maxLen = 200) {
 // ── Отправка в Telegram ───────────────────────────────────────
 async function sendToTelegram(text) {
   const url = `https://api.telegram.org/bot${process.env.TG_TOKEN}/sendMessage`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: process.env.TG_CHAT_ID,
-      text,
-      parse_mode: 'HTML',
-    }),
-  });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Telegram API error: ${body}`);
-  }
+  const chatIds = process.env.TG_CHAT_ID.split(',').map(id => id.trim()).filter(Boolean);
+  await Promise.all(chatIds.map(async (chat_id) => {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id, text, parse_mode: 'HTML' }),
+    });
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`Telegram API error: ${body}`);
+    }
+  }));
 }
 
 // ── Routes ────────────────────────────────────────────────────
