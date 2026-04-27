@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import PlayButton from '../components/PlayButton';
 import WeddingsIntro from '../components/WeddingsIntro';
 import TagsMarquee from '../components/TagsMarquee';
@@ -24,6 +25,14 @@ export default function Weddings() {
 
   return (
     <>
+      <Helmet>
+        <title>Свадебный ведущий Александр Дин — Казахстан</title>
+        <meta name="description" content="Александр Дин — ведущий свадеб в Казахстане. Тёплая атмосфера, живые эмоции и безупречный сценарий вашего торжества." />
+        <link rel="canonical" href="https://din-aleksndr.kz/weddings" />
+        <meta property="og:title" content="Свадебный ведущий Александр Дин — Казахстан" />
+        <meta property="og:description" content="Александр Дин — ведущий свадеб в Казахстане. Тёплая атмосфера, живые эмоции и безупречный сценарий вашего торжества." />
+        <meta property="og:url" content="https://din-aleksndr.kz/weddings" />
+      </Helmet>
       {!introDone && <WeddingsIntro onComplete={() => setIntroDone(true)} />}
 
       {/* hamburger */}

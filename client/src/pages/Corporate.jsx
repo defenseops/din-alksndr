@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import CorporateIntro from '../components/CorporateIntro';
 import NavMenu from '../components/NavMenu';
 import CorporateVideoBlock from '../components/CorporateVideoBlock';
@@ -44,6 +45,14 @@ export default function Corporate() {
 
   return (
     <>
+      <Helmet>
+        <title>Ведущий корпоративов Александр Дин — Казахстан</title>
+        <meta name="description" content="Александр Дин — ведущий корпоративных мероприятий в Казахстане. Профессиональный подход, харизма и точный сценарий под ваш формат." />
+        <link rel="canonical" href="https://din-aleksndr.kz/corporate" />
+        <meta property="og:title" content="Ведущий корпоративов Александр Дин — Казахстан" />
+        <meta property="og:description" content="Александр Дин — ведущий корпоративных мероприятий в Казахстане. Профессиональный подход, харизма и точный сценарий под ваш формат." />
+        <meta property="og:url" content="https://din-aleksndr.kz/corporate" />
+      </Helmet>
       {!introDone && <CorporateIntro onComplete={() => setIntroDone(true)} />}
 
       <button className={styles.hamburger} onClick={() => setMenuOpen(true)}>

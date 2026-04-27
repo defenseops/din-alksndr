@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
+import { Helmet } from 'react-helmet-async';
 import styles from './Home.module.css';
 
 export default function Home() {
@@ -33,6 +34,15 @@ export default function Home() {
   }, []);
 
   return (
+    <>
+    <Helmet>
+      <title>Александр Дин — Ведущий мероприятий в Казахстане</title>
+      <meta name="description" content="Александр Дин — профессиональный ведущий свадеб и корпоративных мероприятий в Казахстане. Яркие эмоции, безупречная организация." />
+      <link rel="canonical" href="https://din-aleksndr.kz/" />
+      <meta property="og:title" content="Александр Дин — Ведущий мероприятий в Казахстане" />
+      <meta property="og:description" content="Александр Дин — профессиональный ведущий свадеб и корпоративных мероприятий в Казахстане." />
+      <meta property="og:url" content="https://din-aleksndr.kz/" />
+    </Helmet>
     <main className={styles.home}>
       <div className={styles.bgWrap}>
         <img src="/photo.jpg" alt="Александр Дин" className={styles.bgImg} />
@@ -55,5 +65,6 @@ export default function Home() {
       </div>
 
     </main>
+    </>
   );
 }
