@@ -19,7 +19,7 @@ app.use(helmet({
       fontSrc: ["'self'", 'https://fonts.gstatic.com'],
       imgSrc: ["'self'", 'data:', 'https:', 'https://mc.yandex.ru'],
       frameSrc: ['https://www.youtube.com', 'https://youtube.com', 'https://disk.yandex.ru', 'https://disk.yandex.kz'],
-      connectSrc: ["'self'", 'https://mc.yandex.ru'],
+      connectSrc: ["'self'", 'https://mc.yandex.ru', 'wss://mc.yandex.ru'],
       mediaSrc: ["'self'", 'https:'],
     },
   },
