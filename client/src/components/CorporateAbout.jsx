@@ -77,7 +77,7 @@ export default function CorporateAbout() {
           </div>
 
           <div className={styles.likeHint} style={{ opacity: liked ? 0 : 1 }}>
-            ← нажмите, если Александр симпатичен
+            ← нажмите на сердечко
           </div>
           <div className={styles.thanks} style={{ opacity: showThanks ? 1 : 0 }}>
             Ой, спасибо, вы тоже супер!
