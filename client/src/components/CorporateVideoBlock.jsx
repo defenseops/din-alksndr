@@ -2,9 +2,9 @@ import styles from './CorporateVideoBlock.module.css';
 
 const VIDEOS = [
   {
-    id: 'KIxyo6xL3pTT4Q',
+    id: '680OIw2WA1A',
     title: 'КОРПОРАТИВ\nДЛЯ BCC',
-    type: 'yandex',
+    type: 'youtube',
   },
 ];
 
@@ -19,7 +19,8 @@ function VideoCard({ id, title, type }) {
         <iframe
           className={styles.iframe}
           src={embedUrl}
-          allow="autoplay; fullscreen"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
         />
         <div className={styles.overlay}>
