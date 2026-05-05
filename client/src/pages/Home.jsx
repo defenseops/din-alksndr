@@ -13,7 +13,7 @@ export default function Home() {
   const [sections, setSections] = useState([]);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3001'}/api/sections`)
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/sections`)
       .then((r) => r.json())
       .then(setSections)
       .catch(() =>

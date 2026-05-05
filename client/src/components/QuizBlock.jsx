@@ -3,7 +3,7 @@ import useReveal from '../hooks/useReveal';
 import styles from './QuizBlock.module.css';
 
 const TOTAL = 3;
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 const KZ_CITIES = [
   'Алматы', 'Астана', 'Шымкент', 'Актобе', 'Тараз', 'Павлодар', 'Усть-Каменогорск',
