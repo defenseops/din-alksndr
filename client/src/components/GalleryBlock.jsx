@@ -11,8 +11,10 @@ const PHOTOS = [
   '/gallery/00825.jpg',
   '/gallery/01106.jpg',
   '/gallery/01110.jpg',
-  '/gallery/ALEX-95.jpg',
   '/gallery/WhatsApp Image 2025-11-04 at 15.39.28.jpeg',
+  '/gallery/ruban-108.jpg',
+  '/gallery/ruban-127.jpg',
+  '/gallery/ALEX-95.jpg',
 ];
 
 export default function GalleryBlock() {

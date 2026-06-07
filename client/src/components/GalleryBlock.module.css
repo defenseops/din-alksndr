@@ -20,8 +20,10 @@
 .item:nth-child(6)  { grid-column: span 4; }
 .item:nth-child(7)  { grid-column: span 4; }
 .item:nth-child(8)  { grid-column: span 6; }
-.item:nth-child(9)  { grid-column: span 3; }
-.item:nth-child(10) { grid-column: span 3; }
+.item:nth-child(9)  { grid-column: span 6; }
+.item:nth-child(10) { grid-column: span 4; }
+.item:nth-child(11) { grid-column: span 4; }
+.item:nth-child(12) { grid-column: span 4; }
 
 .item {
   overflow: hidden;
@@ -57,6 +59,14 @@
 
 .item:nth-child(8) .img {
   object-position: center 30%;
+}
+
+.item:nth-child(10) .img {
+  object-position: center 55%;
+}
+
+.item:nth-child(12) .img {
+  object-position: 30% 35%;
 }
 
 .item:hover .img {
