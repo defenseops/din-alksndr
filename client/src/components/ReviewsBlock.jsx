@@ -5,6 +5,7 @@ const REVIEWS = [
   { id: '-PDJKWq5DOg', name: 'Отзыв 1' },
   { id: 'nlG_xhiEUQo', name: 'Отзыв 2' },
   { id: 'WVYk-Mvg7uI', name: 'Отзыв 3' },
+  { id: 'Uh6pa5nj3zo', name: 'Отзыв 4' },
 ];
 
 export default function ReviewsBlock() {
