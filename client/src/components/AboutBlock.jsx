@@ -1,8 +1,9 @@
 import { useRef, useEffect, useState } from 'react';
 import useReveal from '../hooks/useReveal';
+import { useContent } from '../content/contentHooks';
 import styles from './AboutBlock.module.css';
 
-const TEXT = `Привет!
+const FALLBACK_TEXT = `Привет!
 Если в двух словах:
 Я — ведущий.
 Ещё в двух:
@@ -19,6 +20,8 @@ const TEXT = `Привет!
 Если после прочтения у вас что-то откликнулось в сердечке — возможно, стоит провериться у кардиолога.`;
 
 export default function AboutBlock() {
+  const heading = useContent('weddings.about.heading', 'ОБО МНЕ');
+  const TEXT = useContent('weddings.about.text', FALLBACK_TEXT);
   const textRef = useRef(null);
   const starRef = useRef(null);
   const rotationRef = useRef(0);
@@ -58,7 +61,7 @@ export default function AboutBlock() {
 
       <div className={`${styles.textWrap} reveal-right`} ref={contentRef}>
         <div className={styles.headingRow}>
-          <h2 className={styles.heading}>ОБО МНЕ</h2>
+          <h2 className={styles.heading}>{heading}</h2>
           <img src="/icon-star.png" alt="" className={styles.star} ref={starRef} />
         </div>
         <div className={styles.bodyWrap}>

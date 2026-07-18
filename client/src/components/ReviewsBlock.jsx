@@ -1,15 +1,18 @@
 import useReveal from '../hooks/useReveal';
+import { useVideos } from '../content/contentHooks';
+import { videoEmbedUrl } from '../content/videoEmbed';
 import styles from './ReviewsBlock.module.css';
 
-const REVIEWS = [
-  { id: '-PDJKWq5DOg', name: 'Отзыв 1' },
-  { id: 'nlG_xhiEUQo', name: 'Отзыв 2' },
-  { id: 'WVYk-Mvg7uI', name: 'Отзыв 3' },
-  { id: 'Uh6pa5nj3zo', name: 'Отзыв 4' },
+const FALLBACK_REVIEWS = [
+  { id: 1, provider: 'youtube', external_id: '-PDJKWq5DOg' },
+  { id: 2, provider: 'youtube', external_id: 'nlG_xhiEUQo' },
+  { id: 3, provider: 'youtube', external_id: 'WVYk-Mvg7uI' },
+  { id: 4, provider: 'youtube', external_id: 'Uh6pa5nj3zo' },
 ];
 
 export default function ReviewsBlock() {
   const titleRef = useReveal();
+  const REVIEWS = useVideos('weddings_reviews', FALLBACK_REVIEWS);
 
   return (
     <section className={styles.section}>
@@ -27,7 +30,7 @@ export default function ReviewsBlock() {
           >
             <div className={styles.iframeWrap}>
               <iframe
-                src={`https://www.youtube.com/embed/${r.id}`}
+                src={videoEmbedUrl(r)}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 referrerPolicy="strict-origin-when-cross-origin"
                 allowFullScreen

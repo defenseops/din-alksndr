@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import { useContent } from '../content/contentHooks';
 import styles from './CorporateBenefits.module.css';
 
-const ITEMS = [
+const FALLBACK_ITEMS = [
   {
     title: 'ДОВОЛЬНЫХ СОТРУДНИКОВ',
     text: 'Никого ни к чему не принуждаю и даю всем пространство для отдыха. Кроме самых активных, конечно же. К ним другой разговор.',
@@ -21,6 +22,8 @@ const ITEMS = [
 ];
 
 export default function CorporateBenefits() {
+  const heading = useContent('corporate.benefits.heading', 'ЧТО ВЫ\nПОЛУЧИТЕ');
+  const ITEMS = useContent('corporate.benefits.items', FALLBACK_ITEMS);
   const [active, setActive] = useState(0);
   const [prevActive, setPrevActive] = useState(null);
   const [dir, setDir] = useState('down'); // 'down' | 'up'
@@ -56,7 +59,7 @@ export default function CorporateBenefits() {
   return (
     <section className={styles.section}>
       <div className={styles.left}>
-        <h2 className={styles.heading}>ЧТО ВЫ<br />ПОЛУЧИТЕ</h2>
+        <h2 className={styles.heading}>{heading.split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}</h2>
       </div>
 
       <div className={styles.center}>

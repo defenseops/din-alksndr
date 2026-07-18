@@ -10,6 +10,7 @@ import CorporateTrust from '../components/CorporateTrust';
 import CorporateCTA from '../components/CorporateCTA';
 import CorporateContacts from '../components/CorporateContacts';
 import QuizBlock from '../components/QuizBlock';
+import { useContent } from '../content/contentHooks';
 import styles from './Corporate.module.css';
 
 export default function Corporate() {
@@ -17,6 +18,11 @@ export default function Corporate() {
   const [menuOpen, setMenuOpen] = useState(false);
   const circleRef = useRef(null);
   const heroRef = useRef(null);
+
+  const seoTitle = useContent('corporate.seo.title', 'Ведущий корпоративов Александр Дин — Казахстан');
+  const seoDescription = useContent('corporate.seo.description', 'Александр Дин — ведущий корпоративных мероприятий в Казахстане. Профессиональный подход, харизма и точный сценарий под ваш формат.');
+  const heroTitle = useContent('corporate.hero.title', 'АЛЕКСАНДР ДИН');
+  const heroSubtitle = useContent('corporate.hero.subtitle', 'Ведущий мероприятий');
 
   useEffect(() => {
     const hero = heroRef.current;
@@ -46,11 +52,11 @@ export default function Corporate() {
   return (
     <>
       <Helmet>
-        <title>Ведущий корпоративов Александр Дин — Казахстан</title>
-        <meta name="description" content="Александр Дин — ведущий корпоративных мероприятий в Казахстане. Профессиональный подход, харизма и точный сценарий под ваш формат." />
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
         <link rel="canonical" href="https://din-aleksndr.kz/corporate" />
-        <meta property="og:title" content="Ведущий корпоративов Александр Дин — Казахстан" />
-        <meta property="og:description" content="Александр Дин — ведущий корпоративных мероприятий в Казахстане. Профессиональный подход, харизма и точный сценарий под ваш формат." />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
         <meta property="og:url" content="https://din-aleksndr.kz/corporate" />
       </Helmet>
       {!introDone && <CorporateIntro onComplete={() => setIntroDone(true)} />}
@@ -63,8 +69,8 @@ export default function Corporate() {
 
       <section className={styles.hero} ref={heroRef}>
         <div className={styles.titleBlock}>
-          <h1 className={styles.title}>АЛЕКСАНДР ДИН</h1>
-          <p className={styles.subtitle}>Ведущий мероприятий</p>
+          <h1 className={styles.title}>{heroTitle}</h1>
+          <p className={styles.subtitle}>{heroSubtitle}</p>
         </div>
 
         <div className={styles.photoArea}>

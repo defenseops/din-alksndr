@@ -1,5 +1,15 @@
 import { useState } from 'react';
+import { useContent } from '../content/contentHooks';
 import styles from './CorporateAbout.module.css';
+
+const FALLBACK_PARAGRAPHS = [
+  'Меня зовут Александр Дин, я — ведущий мероприятий.',
+  'В ивент-сфере уже более 7 лет и сегодня профессионально провожу события для крупнейших компаний Казахстана и международных брендов.',
+  'Какое-то время успел побывать в сфере продаж и управления, поэтому хорошо понимаю чего ждут Ваши коллеги от совместного праздника.',
+  'Самое главное, что хочется донести — я искренне люблю свою работу и делаю всё, чтобы Вы тоже любили свою.',
+  'Уверен, наш общий корпоратив станет для этого отличным поводом :)\nЧтобы это проверить — оставляйте заявку на сайте.',
+  'Буду рад встрече!',
+];
 
 export default function CorporateAbout() {
   const [liked, setLiked] = useState(false);
@@ -7,6 +17,14 @@ export default function CorporateAbout() {
   const [shared, setShared] = useState(false);
   const [saved, setSaved] = useState(false);
   const [showThanks, setShowThanks] = useState(false);
+
+  const username = useContent('corporate.about.username', 'din.alksndr');
+  const usernameHref = useContent('corporate.about.usernameHref', 'https://www.instagram.com/din.alksndr?igsh=Nm05aW14ZXBuMjUz');
+  const location = useContent('corporate.about.location', 'Алматы, Казахстан');
+  const likeHint = useContent('corporate.about.likeHint', '← нажмите на сердечко');
+  const thanksText = useContent('corporate.about.thanks', 'Ой, спасибо, вы тоже супер!');
+  const heading = useContent('corporate.about.heading', 'ДАВАЙТЕ\nЗНАКОМИТЬСЯ!');
+  const paragraphs = useContent('corporate.about.paragraphs', FALLBACK_PARAGRAPHS);
 
   const handleLike = () => {
     if (!liked) {
@@ -25,8 +43,8 @@ export default function CorporateAbout() {
           <div className={styles.cardHeader}>
             <img src="/avatar.jpg" alt="Александр Дин" className={styles.avatar} />
             <div className={styles.headerInfo}>
-              <a href="https://www.instagram.com/din.alksndr?igsh=Nm05aW14ZXBuMjUz" target="_blank" rel="noopener noreferrer" className={styles.username}>din.alksndr</a>
-              <span className={styles.location}>Алматы, Казахстан</span>
+              <a href={usernameHref} target="_blank" rel="noopener noreferrer" className={styles.username}>{username}</a>
+              <span className={styles.location}>{location}</span>
             </div>
           </div>
 
@@ -77,22 +95,19 @@ export default function CorporateAbout() {
           </div>
 
           <div className={styles.likeHint} style={{ opacity: liked ? 0 : 1 }}>
-            ← нажмите на сердечко
+            {likeHint}
           </div>
           <div className={styles.thanks} style={{ opacity: showThanks ? 1 : 0 }}>
-            Ой, спасибо, вы тоже супер!
+            {thanksText}
           </div>
         </div>
 
         <div className={styles.text}>
-          <h2 className={styles.heading}>ДАВАЙТЕ<br />ЗНАКОМИТЬСЯ!</h2>
+          <h2 className={styles.heading}>{heading.split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}</h2>
           <div className={styles.body}>
-            <p>Меня зовут Александр Дин, я — ведущий мероприятий.</p>
-            <p>В ивент-сфере уже более 7 лет и сегодня профессионально провожу события для крупнейших компаний Казахстана и международных брендов.</p>
-            <p>Какое-то время успел побывать в сфере продаж и управления, поэтому хорошо понимаю чего ждут Ваши коллеги от совместного праздника.</p>
-            <p>Самое главное, что хочется донести — я искренне люблю свою работу и делаю всё, чтобы Вы тоже любили свою.</p>
-            <p>Уверен, наш общий корпоратив станет для этого отличным поводом :)<br />Чтобы это проверить — оставляйте заявку на сайте.</p>
-            <p>Буду рад встрече!</p>
+            {paragraphs.map((p, i) => (
+              <p key={i}>{p.split('\n').map((line, j) => <span key={j}>{line}{j < p.split('\n').length - 1 && <br />}</span>)}</p>
+            ))}
           </div>
         </div>
       </div>

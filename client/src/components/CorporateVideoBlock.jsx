@@ -1,24 +1,18 @@
+import { useVideos } from '../content/contentHooks';
+import { videoEmbedUrl } from '../content/videoEmbed';
 import styles from './CorporateVideoBlock.module.css';
 
-const VIDEOS = [
-  {
-    id: '680OIw2WA1A',
-    title: 'КОРПОРАТИВ\nДЛЯ BCC',
-    type: 'youtube',
-  },
+const FALLBACK_VIDEOS = [
+  { id: 1, provider: 'youtube', external_id: '680OIw2WA1A', title: 'КОРПОРАТИВ\nДЛЯ BCC' },
 ];
 
-function VideoCard({ id, title, type }) {
-  const embedUrl = type === 'youtube'
-    ? `https://www.youtube.com/embed/${id}`
-    : `https://disk.yandex.ru/video/embed/${id}`;
-
+function VideoCard({ title, ...video }) {
   return (
     <div className={styles.card}>
       <div className={styles.videoWrap}>
         <iframe
           className={styles.iframe}
-          src={embedUrl}
+          src={videoEmbedUrl(video)}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           referrerPolicy="strict-origin-when-cross-origin"
           allowFullScreen
@@ -28,17 +22,18 @@ function VideoCard({ id, title, type }) {
         </div>
       </div>
       <p className={styles.cardTitle}>
-        {title.split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}
+        {(title || '').split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}
       </p>
     </div>
   );
 }
 
 export default function CorporateVideoBlock() {
+  const videos = useVideos('corporate_reel', FALLBACK_VIDEOS);
   return (
     <section className={styles.section}>
       <div className={styles.track}>
-        {VIDEOS.map((v) => (
+        {videos.map((v) => (
           <VideoCard key={v.id} {...v} />
         ))}
       </div>

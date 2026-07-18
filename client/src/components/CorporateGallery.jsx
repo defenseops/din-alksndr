@@ -1,14 +1,16 @@
 import { useState } from 'react';
+import { usePhotos } from '../content/contentHooks';
+import { resolvePhotoUrl } from '../content/photoUrl';
 import styles from './CorporateGallery.module.css';
 import Lightbox from './Lightbox';
 
-const ROW1 = [
+const FALLBACK_ROW1 = [
   { src: '/gallery-corp/img3.jpg', wide: false },
   { src: '/gallery-corp/img2.jpg', wide: true  },
   { src: '/gallery-corp/img1.jpg', wide: false },
 ];
 
-const ROW2 = [
+const FALLBACK_ROW2 = [
   { src: '/gallery-corp/img4.jpg'  },
   { src: '/gallery-corp/img5.jpg'  },
   { src: '/gallery-corp/img6.jpg'  },
@@ -16,10 +18,13 @@ const ROW2 = [
   { src: '/gallery-corp/img8.jpg'  },
 ];
 
-const ALL_PHOTOS = [...ROW1, ...ROW2].map(i => i.src);
-
 export default function CorporateGallery() {
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const items1 = usePhotos('corporate_gallery_row1', FALLBACK_ROW1);
+  const items2 = usePhotos('corporate_gallery_row2', FALLBACK_ROW2);
+  const ROW1 = items1.map((i) => ({ src: resolvePhotoUrl(i.src), wide: i.wide }));
+  const ROW2 = items2.map((i) => ({ src: resolvePhotoUrl(i.src) }));
+  const ALL_PHOTOS = [...ROW1, ...ROW2].map((i) => i.src);
 
   return (
     <>

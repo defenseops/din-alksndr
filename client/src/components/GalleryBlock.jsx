@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+import { usePhotos } from '../content/contentHooks';
+import { resolvePhotoUrl } from '../content/photoUrl';
 import styles from './GalleryBlock.module.css';
 import Lightbox from './Lightbox';
 
-const PHOTOS = [
+const FALLBACK_PHOTOS = [
   '/gallery/00342.jpg',
   '/gallery/00524.jpg',
   '/gallery/00749.jpg',
@@ -15,11 +17,13 @@ const PHOTOS = [
   '/gallery/ruban-108.jpg',
   '/gallery/ruban-127.jpg',
   '/gallery/ALEX-95.jpg',
-];
+].map((src) => ({ src, wide: false }));
 
 export default function GalleryBlock() {
   const itemsRef = useRef([]);
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const items = usePhotos('weddings_gallery', FALLBACK_PHOTOS);
+  const PHOTOS = items.map((item) => resolvePhotoUrl(item.src));
 
   useEffect(() => {
     const observer = new IntersectionObserver(

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { useContent } from '../content/contentHooks';
 import styles from './WeddingsIntro.module.css';
 
 export default function WeddingsIntro({ onComplete }) {
@@ -7,6 +8,8 @@ export default function WeddingsIntro({ onComplete }) {
   const logoRef = useRef(null);
   const nameRef = useRef(null);
   const subtitleRef = useRef(null);
+  const name = useContent('weddings.intro.name', 'АЛЕКСАНДР ДИН');
+  const subtitle = useContent('weddings.intro.subtitle', 'Ведущий мероприятий');
 
   useEffect(() => {
     const tl = gsap.timeline();
@@ -50,8 +53,8 @@ export default function WeddingsIntro({ onComplete }) {
           A<span className={styles.logoD}>D</span>
         </span>
       </div>
-      <p ref={nameRef} className={styles.name}>АЛЕКСАНДР ДИН</p>
-      <p ref={subtitleRef} className={styles.subtitle}>Ведущий мероприятий</p>
+      <p ref={nameRef} className={styles.name}>{name}</p>
+      <p ref={subtitleRef} className={styles.subtitle}>{subtitle}</p>
     </div>
   );
 }

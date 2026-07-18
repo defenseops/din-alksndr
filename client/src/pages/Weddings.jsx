@@ -13,24 +13,35 @@ import ReviewsBlock from '../components/ReviewsBlock';
 import WeddingsCTA from '../components/WeddingsCTA';
 import WeddingsContacts from '../components/WeddingsContacts';
 import NavMenu from '../components/NavMenu';
+import { useContent, useVideos } from '../content/contentHooks';
+import { videoEmbedUrl } from '../content/videoEmbed';
 import styles from './Weddings.module.css';
 
-const YT_ID = 'nmjFyDe8vcw';
+const FALLBACK_HERO_VIDEO = [{ id: 1, provider: 'youtube', external_id: 'nmjFyDe8vcw' }];
 
 export default function Weddings() {
   const [introDone, setIntroDone] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
+  // hero-видео = первое (по порядку) видео из секции weddings_reel — тот же список,
+  // что показывает VideoBlock, чтобы админ управлял этим видео в одном месте.
+  const [heroVideo] = useVideos('weddings_reel', FALLBACK_HERO_VIDEO);
+
+  const seoTitle = useContent('weddings.seo.title', 'Свадебный ведущий Александр Дин — Казахстан');
+  const seoDescription = useContent('weddings.seo.description', 'Александр Дин — ведущий свадеб в Казахстане. Тёплая атмосфера, живые эмоции и безупречный сценарий вашего торжества.');
+  const heroName = useContent('weddings.hero.name', 'АЛЕКСАНДР\nДИН');
+  const heroSubtitle = useContent('weddings.hero.subtitle', 'Ведущий мероприятий');
+  const applyBtn = useContent('weddings.hero.applyBtn', 'Подать заявку');
 
   return (
     <>
       <Helmet>
-        <title>Свадебный ведущий Александр Дин — Казахстан</title>
-        <meta name="description" content="Александр Дин — ведущий свадеб в Казахстане. Тёплая атмосфера, живые эмоции и безупречный сценарий вашего торжества." />
+        <title>{seoTitle}</title>
+        <meta name="description" content={seoDescription} />
         <link rel="canonical" href="https://din-aleksndr.kz/weddings" />
-        <meta property="og:title" content="Свадебный ведущий Александр Дин — Казахстан" />
-        <meta property="og:description" content="Александр Дин — ведущий свадеб в Казахстане. Тёплая атмосфера, живые эмоции и безупречный сценарий вашего торжества." />
+        <meta property="og:title" content={seoTitle} />
+        <meta property="og:description" content={seoDescription} />
         <meta property="og:url" content="https://din-aleksndr.kz/weddings" />
       </Helmet>
       {!introDone && <WeddingsIntro onComplete={() => setIntroDone(true)} />}
@@ -48,7 +59,7 @@ export default function Weddings() {
           <div className={styles.videoModalInner} onClick={e => e.stopPropagation()}>
             <button className={styles.videoModalClose} onClick={() => setVideoOpen(false)}>✕</button>
             <iframe
-              src={`https://www.youtube.com/embed/${YT_ID}?autoplay=1`}
+              src={videoEmbedUrl(heroVideo, { autoplay: true })}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
@@ -65,18 +76,17 @@ export default function Weddings() {
         </div>
 
         <div className={styles.header}>
-          <p className={styles.headerName}>АЛЕКСАНДР</p>
-          <p className={styles.headerName}>ДИН</p>
-          <p className={styles.headerSubtitle}>Ведущий мероприятий</p>
+          {heroName.split('\n').map((line, i) => <p key={i} className={styles.headerName}>{line}</p>)}
+          <p className={styles.headerSubtitle}>{heroSubtitle}</p>
         </div>
 
         <div className={styles.textBlock}>
           <h1 className={styles.title}>
-            АЛЕКСАНДР<br />ДИН
+            {heroName.split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}
           </h1>
-          <p className={styles.subtitle}>Ведущий мероприятий</p>
+          <p className={styles.subtitle}>{heroSubtitle}</p>
           <button className={styles.applyBtn} onClick={() => setQuizOpen(true)}>
-            Подать заявку
+            {applyBtn}
           </button>
         </div>
 

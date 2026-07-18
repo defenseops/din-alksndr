@@ -4,6 +4,16 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
+const cookieParser = require('cookie-parser');
+
+const { ensureAdminSeeded } = require('./lib/auth');
+const publicContentRoutes = require('./routes/publicContent');
+const adminAuthRoutes = require('./routes/adminAuth');
+const adminVideosRoutes = require('./routes/adminVideos');
+const adminPhotosRoutes = require('./routes/adminPhotos');
+const adminContentRoutes = require('./routes/adminContent');
+
+ensureAdminSeeded();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -25,14 +35,17 @@ app.use(helmet({
   },
 }));
 
-// ── CORS — только свой домен ──────────────────────────────────
+// ── CORS — только свой домен, с куками для админки ─────────────
 app.use(cors({
   origin: process.env.ALLOWED_ORIGIN || 'http://localhost:5173',
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type'],
+  credentials: true,
 }));
 
-app.use(express.json({ limit: '10kb' })); // защита от огромных тел запроса
+app.use(cookieParser());
+// лимит побольше, чем для /api/lead — сюда же попадают тексты/JSON-списки из админки
+app.use(express.json({ limit: '200kb' }));
 
 // ── Rate limiting — не более 20 заявок в час с одного IP ──────
 const formLimiter = rateLimit({
@@ -113,6 +126,16 @@ app.post('/api/lead', formLimiter, async (req, res) => {
     res.status(500).json({ error: 'Ошибка отправки. Попробуйте позже.' });
   }
 });
+
+// ── API контента/видео/фото (публичные + защищённые админ-роуты) ─
+app.use('/api', publicContentRoutes);
+app.use('/api/admin', adminAuthRoutes);
+app.use('/api/admin/videos', adminVideosRoutes);
+app.use('/api/admin/photos', adminPhotosRoutes);
+app.use('/api/admin/content', adminContentRoutes);
+
+// ── Загруженные через админку фото ─────────────────────────────
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // ── Статика клиента (в продакшене) ───────────────────────────
 const clientDist = path.join(__dirname, '../client/dist');

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { useContent } from '../content/contentHooks';
 import styles from './CorporateIntro.module.css';
 
 export default function CorporateIntro({ onComplete }) {
@@ -7,6 +8,8 @@ export default function CorporateIntro({ onComplete }) {
   const logoRef = useRef(null);
   const nameRef = useRef(null);
   const subtitleRef = useRef(null);
+  const name = useContent('corporate.intro.name', 'АЛЕКСАНДР ДИН');
+  const subtitle = useContent('corporate.intro.subtitle', 'Ведущий мероприятий');
 
   useEffect(() => {
     const tl = gsap.timeline();
@@ -48,8 +51,8 @@ export default function CorporateIntro({ onComplete }) {
         />
         <span className={styles.logoFallback} style={{ display: 'none' }}>AD</span>
       </div>
-      <p ref={nameRef} className={styles.name}>АЛЕКСАНДР ДИН</p>
-      <p ref={subtitleRef} className={styles.subtitle}>Ведущий мероприятий</p>
+      <p ref={nameRef} className={styles.name}>{name}</p>
+      <p ref={subtitleRef} className={styles.subtitle}>{subtitle}</p>
     </div>
   );
 }

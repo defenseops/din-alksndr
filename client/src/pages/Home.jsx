@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { Helmet } from 'react-helmet-async';
+import { useContent } from '../content/contentHooks';
 import styles from './Home.module.css';
 
 export default function Home() {
@@ -11,6 +12,14 @@ export default function Home() {
   const dividerRef = useRef(null);
   const buttonsRef = useRef(null);
   const [sections, setSections] = useState([]);
+
+  const seoTitle = useContent('home.seo.title', 'Александр Дин — Ведущий мероприятий в Казахстане');
+  const seoDescription = useContent('home.seo.description', 'Александр Дин — профессиональный ведущий свадеб и корпоративных мероприятий в Казахстане. Яркие эмоции, безупречная организация.');
+  const heroSubtitle = useContent('home.hero.subtitle', 'Ведущий мероприятий');
+  const heroName = useContent('home.hero.name', 'АЛЕКСАНДР\nДИН');
+  const chooseLabel = useContent('home.hero.chooseLabel', 'Выберите раздел');
+  const btnWeddings = useContent('home.hero.btnWeddings', 'Свадьбы');
+  const btnCorporate = useContent('home.hero.btnCorporate', 'Корпоративы');
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_API_URL || ''}/api/sections`)
@@ -36,11 +45,11 @@ export default function Home() {
   return (
     <>
     <Helmet>
-      <title>Александр Дин — Ведущий мероприятий в Казахстане</title>
-      <meta name="description" content="Александр Дин — профессиональный ведущий свадеб и корпоративных мероприятий в Казахстане. Яркие эмоции, безупречная организация." />
+      <title>{seoTitle}</title>
+      <meta name="description" content={seoDescription} />
       <link rel="canonical" href="https://din-aleksndr.kz/" />
-      <meta property="og:title" content="Александр Дин — Ведущий мероприятий в Казахстане" />
-      <meta property="og:description" content="Александр Дин — профессиональный ведущий свадеб и корпоративных мероприятий в Казахстане." />
+      <meta property="og:title" content={seoTitle} />
+      <meta property="og:description" content={seoDescription} />
       <meta property="og:url" content="https://din-aleksndr.kz/" />
     </Helmet>
     <main className={styles.home}>
@@ -51,16 +60,16 @@ export default function Home() {
 
       <div ref={contentRef} className={styles.content}>
         <p ref={subtitleRef} className={styles.subtitle}>
-          Ведущий мероприятий
+          {heroSubtitle}
         </p>
         <h1 ref={nameRef} className={styles.name}>
-          АЛЕКСАНДР<br />ДИН
+          {heroName.split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}
         </h1>
         <div ref={dividerRef} className={styles.divider} />
-        <p className={styles.chooseLabel}>Выберите раздел</p>
+        <p className={styles.chooseLabel}>{chooseLabel}</p>
         <div ref={buttonsRef} className={styles.buttons}>
-          <Link to="/weddings" className={styles.btnOutline}>Свадьбы</Link>
-          <Link to="/corporate" className={styles.btnFilled}>Корпоративы</Link>
+          <Link to="/weddings" className={styles.btnOutline}>{btnWeddings}</Link>
+          <Link to="/corporate" className={styles.btnFilled}>{btnCorporate}</Link>
         </div>
       </div>
 

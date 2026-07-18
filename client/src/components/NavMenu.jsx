@@ -1,14 +1,17 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useContent } from '../content/contentHooks';
 import styles from './NavMenu.module.css';
 
-const LINKS = [
+const FALLBACK_LINKS = [
   { label: 'ГЛАВНАЯ', to: '/' },
   { label: 'СВАДЬБЫ', to: '/weddings' },
   { label: 'КОРПОРАТИВЫ', to: '/corporate' },
 ];
 
 export default function NavMenu({ open, onClose }) {
+  const LINKS = useContent('nav.links', FALLBACK_LINKS);
+
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };

@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 import useReveal from '../hooks/useReveal';
+import { useContent } from '../content/contentHooks';
 import styles from './BenefitsBlock.module.css';
 
-const CARDS = [
+const FALLBACK_CARDS = [
   {
     title: 'ВНИМАНИЕ К ГОСТЯМ',
     text: 'Я общаюсь с гостями, а не прячусь за конкурсами. Запоминаю всех гостей по именам и фактам.',
@@ -24,6 +25,8 @@ const CARDS = [
 export default function BenefitsBlock() {
   const headingRef = useReveal();
   const cardsRef = useRef([]);
+  const heading = useContent('weddings.benefits.heading', 'ЧТО ВЫ ПОЛУЧИТЕ?');
+  const CARDS = useContent('weddings.benefits.cards', FALLBACK_CARDS);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -44,7 +47,7 @@ export default function BenefitsBlock() {
 
   return (
     <section className={styles.section}>
-      <h2 className={`${styles.heading} reveal-up`} ref={headingRef}>ЧТО ВЫ ПОЛУЧИТЕ?</h2>
+      <h2 className={`${styles.heading} reveal-up`} ref={headingRef}>{heading}</h2>
       <div className={styles.grid}>
         {CARDS.map((card, i) => (
           <div

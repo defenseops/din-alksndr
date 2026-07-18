@@ -1,16 +1,19 @@
 import { useState, useRef, useEffect } from 'react';
 import useReveal from '../hooks/useReveal';
+import { useContent } from '../content/contentHooks';
 import styles from './QuizBlock.module.css';
 
 const TOTAL = 3;
 const API_URL = import.meta.env.VITE_API_URL || '';
 
-const KZ_CITIES = [
+const FALLBACK_CITIES = [
   'Алматы', 'Астана', 'Шымкент', 'Актобе', 'Тараз', 'Павлодар', 'Усть-Каменогорск',
   'Семей', 'Атырау', 'Костанай', 'Кызылорда', 'Уральск', 'Петропавловск', 'Актау',
   'Темиртау', 'Туркестан', 'Кокшетау', 'Талдыкорган', 'Экибастуз', 'Рудный',
   'Жезказган', 'Балхаш', 'Сатпаев', 'Кентау', 'Жанаозен', 'Байконур',
 ];
+const FALLBACK_GUEST_OPTIONS = ['10-30', '30-50', '50-100', '>100'];
+const FALLBACK_CONTACT_OPTIONS = ['Отправить в Telegram', 'Отправить в WhatsApp', 'Позвонить лично'];
 
 async function sendToTelegram(data, source) {
   const res = await fetch(`${API_URL}/api/lead`, {
@@ -36,6 +39,29 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
   const [cityInput, setCityInput] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
   const cityRef = useRef(null);
+
+  const title = useContent('quiz.title', 'РАССЧИТАЙТЕ СТОИМОСТЬ, ОТВЕТИВ НА ВОПРОСЫ НИЖЕ');
+  const dateLabel = useContent('quiz.step1.dateLabel', 'Дата');
+  const cityLabel = useContent('quiz.step1.cityLabel', 'Место проведения');
+  const citySubLabel = useContent('quiz.step1.citySubLabel', 'Ответьте по желанию');
+  const cityPlaceholder = useContent('quiz.step1.cityPlaceholder', 'Укажите город');
+  const KZ_CITIES = useContent('quiz.cities', FALLBACK_CITIES);
+  const step2Label = useContent('quiz.step2.label', 'Кол-во гостей (примерно)');
+  const step2SubLabel = useContent('quiz.step2.subLabel', 'Ответьте по желанию');
+  const guestOptions = useContent('quiz.step2.options', FALLBACK_GUEST_OPTIONS);
+  const step3Label = useContent('quiz.step3.label', 'Кому сообщить результат?');
+  const namePlaceholder = useContent('quiz.step3.namePlaceholder', 'Ваше имя *');
+  const phonePlaceholder = useContent('quiz.step3.phonePlaceholder', '(000) 000-00-00 *');
+  const phoneErrorText = useContent('quiz.step3.phoneError', 'Введите полный номер: (000) 000-00-00');
+  const contactOptions = useContent('quiz.step3.contactOptions', FALLBACK_CONTACT_OPTIONS);
+  const contactErrorText = useContent('quiz.step3.contactError', 'Выберите способ связи');
+  const consentText = useContent('quiz.step3.consentText', 'Я даю согласие на обработку персональных данных *');
+  const nextBtnText = useContent('quiz.nextBtn', 'Следующий вопрос →');
+  const submitBtnText = useContent('quiz.submitBtn', 'Отправить заявку →');
+  const submitBtnLoadingText = useContent('quiz.submitBtnLoading', 'Отправка...');
+  const errorMsgText = useContent('quiz.errorMsg', 'Ошибка отправки. Попробуйте ещё раз.');
+  const successTitle = useContent('quiz.successTitle', 'Заявка отправлена!');
+  const successText = useContent('quiz.successText', 'Я свяжусь с вами в ближайшее время.');
 
   const filteredCities = KZ_CITIES.filter(c =>
     c.toLowerCase().includes(cityInput.toLowerCase()) && cityInput.length > 0
@@ -87,12 +113,12 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
   return (
     <section className={styles.section} style={dark ? { background: '#0a0a0a' } : {}}>
       <div className={`${styles.card} reveal-scale`} ref={cardRef}>
-        <h2 className={styles.title}>РАССЧИТАЙТЕ СТОИМОСТЬ, ОТВЕТИВ НА ВОПРОСЫ НИЖЕ</h2>
+        <h2 className={styles.title}>{title}</h2>
 
         {sent ? (
           <div className={styles.successMsg}>
-            <p className={styles.successTitle}>Заявка отправлена!</p>
-            <p className={styles.successText}>Я свяжусь с вами в ближайшее время.</p>
+            <p className={styles.successTitle}>{successTitle}</p>
+            <p className={styles.successText}>{successText}</p>
           </div>
         ) : (
           <>
@@ -105,7 +131,7 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                 <>
                   <div className={styles.row}>
                     <div className={styles.label}>
-                      <span className={styles.labelMain}>Дата</span>
+                      <span className={styles.labelMain}>{dateLabel}</span>
                     </div>
                     <div className={styles.inputWrap}>
                       <input
@@ -118,8 +144,8 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                   </div>
                   <div className={styles.row}>
                     <div className={styles.label}>
-                      <span className={styles.labelMain}>Место проведения</span>
-                      <span className={styles.labelSub}>Ответьте по желанию</span>
+                      <span className={styles.labelMain}>{cityLabel}</span>
+                      <span className={styles.labelSub}>{citySubLabel}</span>
                     </div>
                     <div className={styles.inputWrap} ref={cityRef} style={{ position: 'relative' }}>
                       <input
@@ -132,7 +158,7 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                           setShowDropdown(true);
                         }}
                         onFocus={() => setShowDropdown(true)}
-                        placeholder="Укажите город"
+                        placeholder={cityPlaceholder}
                         autoComplete="off"
                       />
                       {showDropdown && filteredCities.length > 0 && (
@@ -160,11 +186,11 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
               {step === 2 && (
                 <div className={styles.row}>
                   <div className={styles.label}>
-                    <span className={styles.labelMain}>Кол-во гостей (примерно)</span>
-                    <span className={styles.labelSub}>Ответьте по желанию</span>
+                    <span className={styles.labelMain}>{step2Label}</span>
+                    <span className={styles.labelSub}>{step2SubLabel}</span>
                   </div>
                   <div className={styles.radioGrid}>
-                    {['10-30', '30-50', '50-100', '>100'].map(val => (
+                    {guestOptions.map(val => (
                       <label key={val} className={styles.radioLabel}>
                         <input
                           type="radio"
@@ -185,7 +211,7 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
               {step === 3 && (
                 <div className={styles.row}>
                   <div className={styles.label}>
-                    <span className={styles.labelMain}>Кому сообщить результат?</span>
+                    <span className={styles.labelMain}>{step3Label}</span>
                   </div>
                   <div className={styles.contactFields}>
                     <input
@@ -193,7 +219,7 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                       className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
                       value={data.name}
                       onChange={e => set('name', e.target.value)}
-                      placeholder="Ваше имя *"
+                      placeholder={namePlaceholder}
                     />
                     <div className={`${styles.phoneWrap} ${errors.phone ? styles.inputError : ''}`}>
                       <span className={styles.phonePrefix}>🇰🇿 +7</span>
@@ -210,13 +236,13 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                           if (digits.length >= 9) masked += '-' + digits.slice(8, 10);
                           set('phone', masked);
                         }}
-                        placeholder="(000) 000-00-00 *"
+                        placeholder={phonePlaceholder}
                         maxLength={15}
                       />
                     </div>
-                    {errors.phone && <span className={styles.fieldError}>Введите полный номер: (000) 000-00-00</span>}
+                    {errors.phone && <span className={styles.fieldError}>{phoneErrorText}</span>}
                     <div className={`${styles.radioGrid} ${errors.contact ? styles.radioError : ''}`}>
-                      {['Отправить в Telegram', 'Отправить в WhatsApp', 'Позвонить лично'].map(val => (
+                      {contactOptions.map(val => (
                         <label key={val} className={styles.radioLabel}>
                           <input
                             type="radio"
@@ -231,7 +257,7 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                         </label>
                       ))}
                     </div>
-                    {errors.contact && <span className={styles.fieldError}>Выберите способ связи</span>}
+                    {errors.contact && <span className={styles.fieldError}>{contactErrorText}</span>}
                     <label className={styles.checkLabel}>
                       <input
                         type="checkbox"
@@ -241,7 +267,7 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                       />
                       <span className={`${styles.checkCustom} ${errors.consent ? styles.checkError : ''}`} />
                       <span className={styles.checkText}>
-                        Я даю согласие на обработку персональных данных *
+                        {consentText}
                       </span>
                     </label>
                   </div>
@@ -250,7 +276,7 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
             </div>
 
             {error && (
-              <p className={styles.errorMsg}>Ошибка отправки. Попробуйте ещё раз.</p>
+              <p className={styles.errorMsg}>{errorMsgText}</p>
             )}
 
             <div className={styles.footer}>
@@ -261,7 +287,7 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                 )}
                 {step < TOTAL ? (
                   <button className={styles.nextBtn} onClick={next}>
-                    Следующий вопрос →
+                    {nextBtnText}
                   </button>
                 ) : (
                   <button
@@ -269,7 +295,7 @@ export default function QuizBlock({ dark = false, source = 'Свадьбы' }) {
                     onClick={handleSubmit}
                     disabled={loading}
                   >
-                    {loading ? 'Отправка...' : 'Отправить заявку →'}
+                    {loading ? submitBtnLoadingText : submitBtnText}
                   </button>
                 )}
               </div>
