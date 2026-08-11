@@ -5,7 +5,7 @@ import styles from './PlayButton.module.css';
 const TEXT = 'СМОТРЕТЬ ВИДЕО • СМОТРЕТЬ ВИДЕО • ';
 const RADIUS = 68;
 
-export default function PlayButton({ onClick }) {
+export default function PlayButton({ onClick, accentColor }) {
   const ringRef = useRef(null);
 
   useEffect(() => {
@@ -21,7 +21,12 @@ export default function PlayButton({ onClick }) {
   const angleStep = 360 / chars.length;
 
   return (
-    <button className={styles.btn} onClick={onClick} aria-label="Смотреть видео">
+    <button
+      className={styles.btn}
+      onClick={onClick}
+      aria-label="Смотреть видео"
+      style={accentColor ? { '--pb-accent': accentColor } : undefined}
+    >
       {/* Вращающийся текст */}
       <svg
         ref={ringRef}

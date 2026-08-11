@@ -1,124 +1,254 @@
 .section {
   background: #0a0a0a;
-  padding: 120px 60px 120px 20px;
-  display: grid;
-  grid-template-columns: 1fr 100px 1.4fr;
-  gap: 0 40px;
-  align-items: start;
+  padding: 100px 0;
 }
 
-/* ── Left: sticky heading ── */
-.left {
-  position: sticky;
-  top: 40vh;
-  align-self: start;
+.wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 7vw;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  padding-left: 0;
+  align-items: flex-start;
+  gap: 64px;
 }
 
-.heading {
+.titleCol {
+  flex: 0 0 clamp(220px, 28vw, 360px);
+  position: sticky;
+  top: 140px;
+}
+
+.listCol {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
   font-family: 'BebasNeueCyrillic', sans-serif;
   font-weight: 700;
-  font-size: clamp(3rem, 5vw, 5.5rem);
-  color: #fff;
+  font-size: clamp(3rem, 5.5vw, 5rem);
   line-height: 0.95;
-  text-align: left;
   letter-spacing: 0.02em;
-}
-
-/* ── Center: sticky counter ── */
-.center {
-  position: sticky;
-  top: 40vh;
-  align-self: start;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.counterWrap {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: #c01515;
-  overflow: hidden;
-  flex-shrink: 0;
-  position: relative;
-}
-
-.counterNum {
-  font-family: 'BebasNeueCyrillic', sans-serif;
-  font-weight: 700;
-  font-size: 1.8rem;
   color: #fff;
-  line-height: 1;
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@keyframes popIn {
-  0%   { opacity: 0; transform: scale(0.4); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
-/* ── Right: cards ── */
-.right {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-  padding-top: 8px;
-}
-
-.card {
-  background: #c01515;
-  border-radius: 24px;
-  padding: 48px 52px;
-}
-
-.cardActive {
-}
-
-.cardTitle {
-  font-family: 'BebasNeueCyrillic', sans-serif;
-  font-weight: 700;
-  font-size: clamp(1.1rem, 1.6vw, 1.4rem);
-  letter-spacing: 0.08em;
-  color: #fff;
-  margin: 0 0 24px;
-}
-
-.cardText {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: clamp(1rem, 1.2vw, 1.15rem);
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.85);
   margin: 0;
 }
 
-@media (max-width: 768px) {
+.titleAccent {
+  color: #c01515;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  align-items: center;
+  gap: 0 24px;
+  padding: 28px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 8px;
+
+  opacity: 0;
+  transform: translateX(40px);
+  transition: opacity 0.6s ease, transform 0.6s ease, background 0.25s;
+  will-change: opacity, transform;
+}
+
+.list .item:first-child {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: rgba(192, 21, 21, 0.1);
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 0;
+}
+
+.item:hover::before,
+.itemOpen::before {
+  width: 100%;
+}
+
+.number {
+  position: relative;
+  z-index: 1;
+  font-family: 'BebasNeueCyrillic', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  color: rgba(255, 255, 255, 0.18);
+  line-height: 1;
+  transition: color 0.3s;
+}
+
+.item:hover .number,
+.itemOpen .number {
+  color: #c01515;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.label {
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c01515;
+  margin: 0 0 6px;
+}
+
+.itemHeading {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  color: #fff;
+  margin: 0;
+}
+
+.body {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s, margin 0.4s;
+}
+
+.itemOpen .body {
+  max-height: 120px;
+  opacity: 1;
+  margin-top: 8px;
+}
+
+.arrow {
+  position: relative;
+  z-index: 1;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.25s, transform 0.3s, color 0.25s;
+  user-select: none;
+}
+
+.item:hover .arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.itemOpen .arrow {
+  opacity: 1;
+  color: #c01515;
+  transform: rotate(90deg);
+}
+
+.bar {
+  position: absolute;
+  bottom: 0;
+  left: 64px;
+  right: 0;
+  height: 1px;
+  background: #c01515;
+  width: 0;
+  transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.itemOpen .bar {
+  width: calc(100% - 64px);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c01515;
+  flex-shrink: 0;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+@media (max-width: 900px) {
+  .wrap {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .titleCol {
+    position: static;
+    flex: none;
+  }
+
+  .title {
+    margin: 0;
+  }
+}
+
+@media (max-width: 640px) {
   .section {
-    grid-template-columns: 1fr;
-    padding: 80px 20px;
-    gap: 40px 0;
+    padding: 64px 0;
   }
 
-  .left {
-    position: static;
+  .title {
+    font-size: clamp(2.4rem, 10vw, 3.2rem);
   }
 
-  .center {
-    position: static;
-    justify-content: flex-start;
+  .item {
+    grid-template-columns: 40px 1fr auto;
+    gap: 0 14px;
+    padding: 20px 6px;
   }
 
-  .card {
-    padding: 32px 28px;
+  .number {
+    font-size: 1.5rem;
+  }
+
+  .bar {
+    left: 40px;
+  }
+
+  .itemOpen .bar {
+    width: calc(100% - 40px);
   }
 }

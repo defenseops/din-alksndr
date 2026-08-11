@@ -1,15 +1,17 @@
 .weddings {
+  --panel-bg: #0a0a0a;
   position: relative;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
   display: flex;
-  align-items: flex-end;
 }
 
-.bgWrap {
-  position: absolute;
-  inset: 0;
+.photoBlock {
+  position: relative;
+  flex: 0 0 46%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .bgImg {
@@ -17,94 +19,172 @@
   height: 100%;
   object-fit: cover;
   object-position: center 20%;
-  filter: brightness(0.6);
+  filter: brightness(0.72);
 }
 
-.overlay {
+.photoFade {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to right,
-    rgba(0, 0, 0, 0.7) 0%,
-    rgba(0, 0, 0, 0.2) 55%,
-    transparent 100%
+    rgba(0, 0, 0, 0.35) 0%,
+    transparent 30%,
+    transparent 55%,
+    var(--panel-bg) 96%
   );
 }
 
-.header {
+.textPanel {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: var(--panel-bg);
+}
+
+.topBar {
   position: absolute;
-  top: 5vh;
-  left: 7vw;
-  z-index: 2;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 4vh 7vw 0;
+  pointer-events: none;
 }
 
-.headerName {
-  font-family: 'BebasNeueCyrillic', sans-serif;
-  font-weight: 700;
-  font-size: clamp(1.8rem, 3.5vw, 3rem);
-  letter-spacing: 0.01em;
+.topBar > * {
+  pointer-events: auto;
+}
+
+.brandMark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoImg {
+  width: clamp(56px, 6vw, 92px);
+  height: auto;
+}
+
+.brandName {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.6rem, 0.95vw, 0.75rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   color: #fff;
-  margin: 0 0 10px;
+  margin: 0;
+  white-space: nowrap;
 }
 
-.headerSubtitle {
+.callBlock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.callIcon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.callText {
+  display: flex;
+  flex-direction: column;
+}
+
+.callPhone {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: clamp(0.8rem, 1.05vw, 0.95rem);
+  color: #fff;
+  white-space: nowrap;
+}
+
+.callLabel {
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
-  font-size: clamp(0.7rem, 1.2vw, 1rem);
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: #c9a96e;
-  margin: 0;
+  font-size: clamp(0.6rem, 0.8vw, 0.7rem);
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.65);
+  white-space: nowrap;
 }
 
 .textBlock {
   position: relative;
   z-index: 2;
-  padding: 0 0 8vh 7vw;
+  padding: 0 6vw;
 }
 
 .title {
   font-family: 'BebasNeueCyrillic', sans-serif;
   font-weight: 700;
-  font-size: clamp(3.5rem, 8vw, 7.5rem);
-  line-height: 0.92;
+  font-size: clamp(3.5rem, 7.2vw, 8rem);
+  line-height: 0.95;
   letter-spacing: 0.01em;
   color: #fff;
-  margin: 0 0 20px;
-  opacity: 0;
+  margin: 0 0 28px;
   text-shadow: 0 4px 40px rgba(0, 0, 0, 0.5);
 }
 
 .subtitle {
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
-  font-size: clamp(0.7rem, 1.3vw, 1rem);
+  font-size: clamp(0.8rem, 1.5vw, 1.15rem);
   letter-spacing: 0.35em;
   text-transform: uppercase;
   color: #c9a96e;
   margin: 0;
-  opacity: 0;
+}
+
+.quote {
+  margin: 34px 0 0;
+  max-width: 28em;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.3rem, 2vw, 1.75rem);
+  line-height: 1.45;
+  color: #fff;
+}
+
+.quoteAuthor {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.7em;
+  font-style: italic;
+  color: #c9a96e;
 }
 
 .applyBtn {
-  margin-top: 28px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  margin-top: 42px;
+  background: #fff;
+  border: none;
   border-radius: 100px;
-  padding: 16px 40px;
+  padding: 20px 52px;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  font-size: clamp(0.8rem, 1vw, 0.95rem);
+  font-weight: 600;
+  font-size: clamp(0.9rem, 1.15vw, 1.05rem);
   letter-spacing: 0.08em;
-  color: #fff;
+  color: var(--panel-bg);
   cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: background 0.3s, border-color 0.3s;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.5), 0 8px 44px rgba(255, 255, 255, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .applyBtn:hover {
-  background: rgba(255, 255, 255, 0.22);
-  border-color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7), 0 10px 54px rgba(255, 255, 255, 0.5);
 }
 
 .hamburger {
@@ -179,15 +259,103 @@
   border-radius: 8px;
 }
 
-.marqueeSection {
-  width: 100%;
-}
-
-/* Play button — правее центра, по вертикали по центру */
+/* Play button — верх-право фото-блока, ниже topBar и правее лица модели */
 .playWrap {
   position: absolute;
-  right: 18vw;
-  top: 38%;
-  transform: translateY(-50%);
+  left: 78%;
+  top: 26%;
+  transform: translate(-50%, -50%);
   z-index: 3;
+}
+
+@media (max-width: 1024px) {
+  .weddings {
+    flex-direction: column;
+  }
+
+  .photoBlock {
+    flex: 0 0 42vh;
+    width: 100%;
+  }
+
+  .photoFade {
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.35) 0%,
+      transparent 30%,
+      transparent 55%,
+      var(--panel-bg) 96%
+    );
+  }
+
+  .textPanel {
+    flex: 1;
+    width: 100%;
+    align-items: flex-start;
+    padding-top: 4vh;
+  }
+
+  .textBlock {
+    padding: 0 8vw;
+  }
+
+  .title {
+    font-size: clamp(2.6rem, 11vw, 4rem);
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    font-size: clamp(0.7rem, 1.3vw, 1rem);
+  }
+
+  .quote {
+    margin: 24px 0 0;
+    max-width: 26em;
+    font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+  }
+
+  .quoteAuthor {
+    font-size: 0.75em;
+  }
+
+  .applyBtn {
+    margin-top: 32px;
+    padding: 18px 44px;
+    font-size: clamp(0.8rem, 1vw, 0.95rem);
+  }
+
+  /* на узком экране лицо модели уже в центре кадра — сверху для кнопки чистого места
+     нет, поэтому на мобильном оставляем её внизу фото-блока (top, не bottom: transform
+     translate(-50%,-50%) уже центрирует круг на точке top/left, смешивать его с bottom
+     нельзя — сдвинет ещё на полвысоты в противоположную сторону).
+     Также сдвигаем от центра вбок и уменьшаем — фикс. 180px круг по центру кадра
+     смотрелся тяжело на узком экране. */
+  .playWrap {
+    left: 80%;
+    top: 73%;
+    transform: translate(-50%, -50%) scale(0.7);
+  }
+
+  .topBar {
+    /* правый паддинг больше левого — освобождает место под фиксированную кнопку .hamburger (24px + 44px) */
+    padding: 3vh 78px 0 6vw;
+  }
+
+  .logoImg {
+    width: 48px;
+  }
+
+  .callLabel {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .callPhone {
+    font-size: 0.7rem;
+  }
+
+  .brandName {
+    font-size: 0.55rem;
+  }
 }

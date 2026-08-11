@@ -17,14 +17,13 @@ const FALLBACK_TEXT = `Привет!
 — Именно поэтому гости часто уверены, что я давний друг молодожёнов. Хотя видимся мы с ними впервые в жизни.
 — Именно поэтому мы потом действительно становимся друзьями с теми, кто доверяет мне свой праздник. И не один.
 И, может быть, именно поэтому вы сейчас читаете этот текст :)
-Если после прочтения у вас что-то откликнулось в сердечке — возможно, стоит провериться у кардиолога.`;
+И если после прочтения у вас что-то ёкнуло в сердечке — возможно, стоит сходить к кардиологу.
+Или это знак оставить заявочку и познакомиться :)`;
 
 export default function AboutBlock() {
   const heading = useContent('weddings.about.heading', 'ОБО МНЕ');
   const TEXT = useContent('weddings.about.text', FALLBACK_TEXT);
   const textRef = useRef(null);
-  const starRef = useRef(null);
-  const rotationRef = useRef(0);
   const photoRef = useReveal();
   const contentRef = useReveal();
   const [atBottom, setAtBottom] = useState(false);
@@ -37,18 +36,9 @@ export default function AboutBlock() {
       setAtBottom(el.scrollTop + el.clientHeight >= el.scrollHeight - 4);
     };
 
-    const onWheel = (e) => {
-      rotationRef.current += e.deltaY * 0.3;
-      if (starRef.current) {
-        starRef.current.style.transform = `rotate(${rotationRef.current}deg)`;
-      }
-    };
-
     el.addEventListener('scroll', onScroll, { passive: true });
-    el.addEventListener('wheel', onWheel, { passive: true });
     return () => {
       el.removeEventListener('scroll', onScroll);
-      el.removeEventListener('wheel', onWheel);
     };
   }, []);
 
@@ -62,7 +52,6 @@ export default function AboutBlock() {
       <div className={`${styles.textWrap} reveal-right`} ref={contentRef}>
         <div className={styles.headingRow}>
           <h2 className={styles.heading}>{heading}</h2>
-          <img src="/icon-star.png" alt="" className={styles.star} ref={starRef} />
         </div>
         <div className={styles.bodyWrap}>
           <div className={styles.body} ref={textRef}>

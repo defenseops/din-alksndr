@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { usePhotos } from '../content/contentHooks';
+import useReveal from '../hooks/useReveal';
+import { useContent, usePhotos } from '../content/contentHooks';
 import { resolvePhotoUrl } from '../content/photoUrl';
 import styles from './GalleryBlock.module.css';
 import Lightbox from './Lightbox';
@@ -21,9 +22,11 @@ const FALLBACK_PHOTOS = [
 
 export default function GalleryBlock() {
   const itemsRef = useRef([]);
+  const headingRef = useReveal();
   const [lightboxIndex, setLightboxIndex] = useState(null);
   const items = usePhotos('weddings_gallery', FALLBACK_PHOTOS);
   const PHOTOS = items.map((item) => resolvePhotoUrl(item.src));
+  const heading = useContent('weddings.gallery.heading', 'ЕЩЁ НЕМНОГО КАДРОВ');
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -45,6 +48,7 @@ export default function GalleryBlock() {
   return (
     <>
       <section className={styles.section}>
+        <h2 className={`${styles.heading} reveal-up`} ref={headingRef}>{heading}</h2>
         <div className={styles.grid}>
           {PHOTOS.map((src, i) => (
             <div

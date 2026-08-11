@@ -1,5 +1,5 @@
 import useReveal from '../hooks/useReveal';
-import { useVideos } from '../content/contentHooks';
+import { useContent, useVideos } from '../content/contentHooks';
 import { videoEmbedUrl } from '../content/videoEmbed';
 import styles from './VideoBlock.module.css';
 
@@ -10,11 +10,21 @@ const FALLBACK_VIDEOS = [
 ];
 
 export default function VideoBlock() {
+  const introRef = useReveal();
   const ref = useReveal();
   const videos = useVideos('weddings_reel', FALLBACK_VIDEOS);
+  const heading = useContent('weddings.videoIntro.heading', 'ВСЁ БУДЕТ ЛЕГКО\nИ\nНЕПРИНУЖДЕННО');
+  const text = useContent('weddings.videoIntro.text', 'Никакой банальщины, пошлостей и «испанского стыда». Можете убедиться сами:');
 
   return (
     <section className={styles.section}>
+      <div className={`${styles.introWrap} reveal-up`} ref={introRef}>
+        <h2 className={styles.introHeading}>
+          {heading.split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}
+        </h2>
+        <p className={styles.introText}>{text}</p>
+      </div>
+
       <div className={`${styles.track} reveal-up`} ref={ref}>
         {videos.map((v, i) => (
           <div

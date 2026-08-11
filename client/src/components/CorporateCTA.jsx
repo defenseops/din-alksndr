@@ -5,8 +5,8 @@ import QuizModal from './QuizModal';
 
 export default function CorporateCTA() {
   const [open, setOpen] = useState(false);
-  const heading = useContent('corporate.cta.heading', '95% ЛЮДЕЙ СТАНОВЯТСЯ СЧАСТЛИВЕЕ\nПРИ НАЖАТИИ НА ЭТУ КНОПКУ');
-  const btn = useContent('corporate.cta.btn', 'Нажать на кнопку');
+  const heading = useContent('corporate.cta.heading', 'ВАШИ СОТРУДНИКИ ЗАСЛУЖИВАЮТ\nЛУЧШЕГО ПРАЗДНИКА');
+  const btn = useContent('corporate.cta.btn', 'Создадим его вместе');
 
   return (
     <>

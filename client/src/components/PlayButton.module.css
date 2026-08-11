@@ -1,4 +1,5 @@
 .btn {
+  --pb-accent: #c9a96e;
   position: relative;
   width: 180px;
   height: 180px;
@@ -44,8 +45,8 @@
 }
 
 .btn:hover .circle {
-  background: rgba(201, 169, 110, 0.25);
-  border-color: #c9a96e;
+  background: color-mix(in srgb, var(--pb-accent) 25%, transparent);
+  border-color: var(--pb-accent);
   transform: scale(1.08);
 }
 

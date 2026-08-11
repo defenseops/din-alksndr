@@ -5,26 +5,31 @@ import styles from './BenefitsBlock.module.css';
 
 const FALLBACK_CARDS = [
   {
-    title: 'ВНИМАНИЕ К ГОСТЯМ',
-    text: 'Я общаюсь с гостями, а не прячусь за конкурсами. Запоминаю всех гостей по именам и фактам.',
+    label: 'ГОСТИ',
+    title: 'Внимание к каждому гостю',
+    text: 'Я общаюсь с гостями, а не прячусь за конкурсами. Запоминаю всех по именам и фактам.',
   },
   {
-    title: 'ИНТЕРАКТИВЫ О ВАС',
-    text: 'Использую информацию о вас и гостях. Этот уникальный контент будет только на вашей свадьбе.',
+    label: 'ПРОГРАММА',
+    title: 'Интерактивы именно о вас',
+    text: 'Использую информацию о вас и ваших гостей. Этот контент будет только на вашей свадьбе — нигде больше.',
+    badge: 'Уникально для каждой пары',
   },
   {
-    title: 'ЦЕРЕМОНИЮ',
-    text: 'Создаю трогательные церемонии с элементами юмора на основании вашей истории.',
+    label: 'ЦЕРЕМОНИЯ',
+    title: 'Трогательный момент на всю жизнь',
+    text: 'Создаю церемонии с элементами юмора на основании вашей истории. Никаких шаблонных текстов.',
   },
   {
-    title: 'ВАРИАНТЫ ПРОГРАММЫ',
+    label: 'ФОРМАТ',
+    title: 'Варианты программы на ваш вкус',
     text: 'Мы вместе решим, чем наполнить свадьбу: я предложу идеи, а вы выберете то, что понравится.',
   },
 ];
 
 export default function BenefitsBlock() {
   const headingRef = useReveal();
-  const cardsRef = useRef([]);
+  const itemsRef = useRef([]);
   const heading = useContent('weddings.benefits.heading', 'ЧТО ВЫ ПОЛУЧИТЕ?');
   const CARDS = useContent('weddings.benefits.cards', FALLBACK_CARDS);
 
@@ -41,23 +46,28 @@ export default function BenefitsBlock() {
       { threshold: 0.15 }
     );
 
-    cardsRef.current.forEach((el) => el && observer.observe(el));
+    itemsRef.current.forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
   }, []);
 
   return (
     <section className={styles.section}>
       <h2 className={`${styles.heading} reveal-up`} ref={headingRef}>{heading}</h2>
-      <div className={styles.grid}>
+      <div className={styles.list}>
         {CARDS.map((card, i) => (
           <div
             key={i}
-            className={styles.card}
-            style={{ transitionDelay: `${i * 120}ms` }}
-            ref={(el) => (cardsRef.current[i] = el)}
+            className={styles.item}
+            style={{ transitionDelay: `${i * 100}ms` }}
+            ref={(el) => (itemsRef.current[i] = el)}
           >
-            <h3 className={styles.cardTitle}>{card.title}</h3>
-            <p className={styles.cardText}>{card.text}</p>
+            <span className={styles.number}>{String(i + 1).padStart(2, '0')}</span>
+            <div className={styles.itemContent}>
+              {card.label && <span className={styles.itemLabel}>{card.label}</span>}
+              <h3 className={styles.itemTitle}>{card.title}</h3>
+              <p className={styles.itemText}>{card.text}</p>
+              {card.badge && <span className={styles.itemBadge}>{card.badge}</span>}
+            </div>
           </div>
         ))}
       </div>

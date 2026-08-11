@@ -51,15 +51,6 @@
   margin: 0;
 }
 
-.star {
-  width: clamp(80px, 8vw, 128px);
-  height: clamp(80px, 8vw, 128px);
-  object-fit: contain;
-  transition: transform 0.1s linear;
-  will-change: transform;
-  margin-right: 2vw;
-}
-
 .bodyWrap {
   position: relative;
   flex: 1;

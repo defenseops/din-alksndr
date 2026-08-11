@@ -5,6 +5,33 @@
   overflow: hidden;
 }
 
+.introWrap {
+  text-align: center;
+  max-width: 60em;
+  margin: 0 auto 64px;
+  padding: 0 7vw;
+}
+
+.introHeading {
+  font-family: 'BebasNeueCyrillic', sans-serif;
+  font-size: clamp(3rem, 7vw, 6rem);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  color: #0a0a0a;
+  margin: 0 0 10px;
+}
+
+.introText {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.6);
+  max-width: none;
+  margin: 0;
+}
+
 .track {
   display: flex;
   gap: 32px;
@@ -33,6 +60,14 @@
 @media (max-width: 640px) {
   .section {
     padding: 48px 0;
+  }
+
+  .introWrap {
+    margin-bottom: 36px;
+  }
+
+  .introHeading {
+    font-size: clamp(2.4rem, 9vw, 3.2rem);
   }
 
   .track {

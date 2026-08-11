@@ -4,6 +4,16 @@
   padding: 80px 7vw 100px;
 }
 
+.heading {
+  font-family: 'BebasNeueCyrillic', sans-serif;
+  font-size: clamp(3rem, 6.5vw, 6rem);
+  letter-spacing: 0.02em;
+  line-height: 0.98;
+  color: #0a0a0a;
+  text-align: center;
+  margin: 0 0 56px;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -71,4 +81,11 @@
 
 .item:hover .img {
   transform: scale(1.04);
+}
+
+@media (max-width: 640px) {
+  .heading {
+    font-size: clamp(2.4rem, 9vw, 3.2rem);
+    margin-bottom: 32px;
+  }
 }

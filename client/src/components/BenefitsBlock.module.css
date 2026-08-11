@@ -14,51 +14,86 @@
   letter-spacing: 0.04em;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  max-width: 1100px;
+.list {
+  max-width: 860px;
   margin: 0 auto;
 }
 
-.card {
-  border: 1px solid #e0e0e0;
-  border-radius: 16px;
-  padding: 36px 36px 44px;
+.item {
   display: flex;
-  flex-direction: column;
-  gap: 28px;
-  background: #fff;
+  align-items: baseline;
+  gap: 32px;
+  padding: 36px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
 
   opacity: 0;
-  transform: translateY(50px);
+  transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
   will-change: opacity, transform;
   backface-visibility: hidden;
 }
 
-.card.visible {
+.item:last-child {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.item.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.cardTitle {
-  font-family: 'BebasNeueCyrillic', sans-serif;
+.number {
+  flex: 0 0 auto;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.15);
+}
+
+.itemContent {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.itemLabel {
+  display: block;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c9a96e;
+  margin: 0 0 10px;
+}
+
+.itemTitle {
+  font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: clamp(1.3rem, 1.8vw, 1.7rem);
-  letter-spacing: 0.06em;
+  font-size: clamp(1.1rem, 1.6vw, 1.35rem);
   color: #0a0a0a;
+  margin: 0 0 8px;
+}
+
+.itemText {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.6);
   margin: 0;
 }
 
-.cardText {
+.itemBadge {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: rgba(201, 169, 110, 0.14);
+  color: #9c7c3f;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
-  font-size: clamp(0.85rem, 1vw, 0.95rem);
-  line-height: 1.7;
-  color: #444;
-  margin: 0;
+  font-weight: 500;
+  font-size: 0.8rem;
 }
 
 @media (max-width: 768px) {
@@ -71,21 +106,20 @@
     margin-bottom: 36px;
   }
 
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
+  .item {
+    gap: 18px;
+    padding: 28px 0;
   }
 
-  .card {
-    padding: 28px 24px 32px;
-    gap: 16px;
+  .number {
+    font-size: 1.5rem;
   }
 
-  .cardTitle {
-    font-size: 1.1rem;
+  .itemTitle {
+    font-size: 1.05rem;
   }
 
-  .cardText {
-    font-size: 0.9rem;
+  .itemText {
+    font-size: 0.88rem;
   }
 }
