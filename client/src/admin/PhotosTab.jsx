@@ -65,22 +65,34 @@ export default function PhotosTab() {
 
   const handleDelete = async (section, id) => {
     if (!confirm('Удалить это фото?')) return;
-    await adminApi.deletePhoto(id);
-    setPhotos((p) => ({ ...p, [section]: p[section].filter((x) => x.id !== id) }));
+    try {
+      await adminApi.deletePhoto(id);
+      setPhotos((p) => ({ ...p, [section]: p[section].filter((x) => x.id !== id) }));
+    } catch (err) {
+      alert(`Не удалось удалить фото: ${err.message}`);
+    }
   };
 
   const handleReorder = async (section, id, direction) => {
-    await adminApi.reorderPhoto(id, direction);
-    const data = await adminApi.getPhotos();
-    setPhotos(data);
+    try {
+      await adminApi.reorderPhoto(id, direction);
+      const data = await adminApi.getPhotos();
+      setPhotos(data);
+    } catch (err) {
+      alert(`Не удалось изменить порядок: ${err.message}`);
+    }
   };
 
   const handleToggleWide = async (section, id, wide) => {
-    await adminApi.toggleWidePhoto(id, wide);
-    setPhotos((p) => ({
-      ...p,
-      [section]: p[section].map((x) => (x.id === id ? { ...x, wide } : x)),
-    }));
+    try {
+      await adminApi.toggleWidePhoto(id, wide);
+      setPhotos((p) => ({
+        ...p,
+        [section]: p[section].map((x) => (x.id === id ? { ...x, wide } : x)),
+      }));
+    } catch (err) {
+      alert(`Не удалось сохранить: ${err.message}`);
+    }
   };
 
   if (loading) return <p>Загрузка...</p>;

@@ -69,24 +69,36 @@ export default function VideosTab() {
 
   const handleDelete = async (section, id) => {
     if (!confirm('Удалить это видео?')) return;
-    await adminApi.deleteVideo(id);
-    setVideos((v) => ({ ...v, [section]: v[section].filter((x) => x.id !== id) }));
+    try {
+      await adminApi.deleteVideo(id);
+      setVideos((v) => ({ ...v, [section]: v[section].filter((x) => x.id !== id) }));
+    } catch (err) {
+      alert(`Не удалось удалить видео: ${err.message}`);
+    }
   };
 
   const handleReorder = async (section, id, direction) => {
-    await adminApi.reorderVideo(id, direction);
-    const data = await adminApi.getVideos();
-    setVideos(data);
+    try {
+      await adminApi.reorderVideo(id, direction);
+      const data = await adminApi.getVideos();
+      setVideos(data);
+    } catch (err) {
+      alert(`Не удалось изменить порядок: ${err.message}`);
+    }
   };
 
   const handleRename = async (section, id, currentTitle) => {
     const title = prompt('Подпись видео (показывается на карточках корпоративов):', currentTitle || '');
     if (title === null) return;
-    await adminApi.renameVideo(id, title);
-    setVideos((v) => ({
-      ...v,
-      [section]: v[section].map((x) => (x.id === id ? { ...x, title } : x)),
-    }));
+    try {
+      await adminApi.renameVideo(id, title);
+      setVideos((v) => ({
+        ...v,
+        [section]: v[section].map((x) => (x.id === id ? { ...x, title } : x)),
+      }));
+    } catch (err) {
+      alert(`Не удалось сохранить название: ${err.message}`);
+    }
   };
 
   if (loading) return <p>Загрузка...</p>;
