@@ -34,11 +34,16 @@ function VideoCard({ title, ...video }) {
 export default function CorporateVideoBlock() {
   const videos = useVideos('corporate_reel', FALLBACK_VIDEOS);
   const { trackRef, canLeft, canRight, scrollLeft, scrollRight } = useHorizontalScroll();
+  // если видео помещаются целиком (скроллить некуда) — центрируем, а не жмём к левому краю;
+  // как только видео станет больше и появится реальный скролл, снова уходим к flex-start
+  // (сохраняет базовое позиционирование от начала — центрирование overflow-контента
+  // прыгает в некоторых браузерах).
+  const centered = !canLeft && !canRight;
 
   return (
     <section className={styles.section}>
       <div className={styles.trackWrap}>
-        <div className={styles.track} ref={trackRef}>
+        <div className={`${styles.track} ${centered ? styles.trackCentered : ''}`} ref={trackRef}>
           {videos.map((v) => (
             <VideoCard key={v.id} {...v} />
           ))}
