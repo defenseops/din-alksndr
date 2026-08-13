@@ -1,6 +1,9 @@
 import useReveal from '../hooks/useReveal';
+import useHorizontalScroll from '../hooks/useHorizontalScroll';
 import { useContent, useVideos } from '../content/contentHooks';
 import { videoEmbedUrl } from '../content/videoEmbed';
+import ScrollArrows from './ScrollArrows';
+import SwipeHint from './SwipeHint';
 import styles from './VideoBlock.module.css';
 
 const FALLBACK_VIDEOS = [
@@ -12,8 +15,10 @@ const FALLBACK_VIDEOS = [
 export default function VideoBlock() {
   const introRef = useReveal();
   const ref = useReveal();
+  const { trackRef, canLeft, canRight, scrollLeft, scrollRight } = useHorizontalScroll();
+  const setTrackRefs = (node) => { ref.current = node; trackRef.current = node; };
   const videos = useVideos('weddings_reel', FALLBACK_VIDEOS);
-  const heading = useContent('weddings.videoIntro.heading', 'ВСЁ БУДЕТ ЛЕГКО\nИ\nНЕПРИНУЖДЕННО');
+  const heading = useContent('weddings.videoIntro.heading', 'ВСЁ БУДЕТ ЛЕГКО\nИ НЕПРИНУЖДЕННО');
   const text = useContent('weddings.videoIntro.text', 'Никакой банальщины, пошлостей и «испанского стыда». Можете убедиться сами:');
 
   return (
@@ -25,23 +30,27 @@ export default function VideoBlock() {
         <p className={styles.introText}>{text}</p>
       </div>
 
-      <div className={`${styles.track} reveal-up`} ref={ref}>
-        {videos.map((v, i) => (
-          <div
-            key={v.id}
-            className={styles.videoWrap}
-            style={{ transitionDelay: `${i * 150}ms` }}
-          >
-            <iframe
-              className={styles.iframe}
-              src={videoEmbedUrl(v)}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen
-            />
-          </div>
-        ))}
+      <div className={styles.trackWrap}>
+        <div className={`${styles.track} reveal-up`} ref={setTrackRefs}>
+          {videos.map((v, i) => (
+            <div
+              key={v.id}
+              className={styles.videoWrap}
+              style={{ transitionDelay: `${i * 150}ms` }}
+            >
+              <iframe
+                className={styles.iframe}
+                src={videoEmbedUrl(v)}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            </div>
+          ))}
+        </div>
+        <ScrollArrows canLeft={canLeft} canRight={canRight} onLeft={scrollLeft} onRight={scrollRight} />
       </div>
+      <SwipeHint show={canRight} />
     </section>
   );
 }

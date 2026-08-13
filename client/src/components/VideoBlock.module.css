@@ -14,7 +14,7 @@
 
 .introHeading {
   font-family: 'BebasNeueCyrillic', sans-serif;
-  font-size: clamp(3rem, 7vw, 6rem);
+  font-size: clamp(2.6rem, 6vw, 5rem);
   letter-spacing: 0.06em;
   line-height: 1;
   color: #0a0a0a;
@@ -30,6 +30,10 @@
   color: rgba(0, 0, 0, 0.6);
   max-width: none;
   margin: 0;
+}
+
+.trackWrap {
+  position: relative;
 }
 
 .track {
@@ -67,7 +71,7 @@
   }
 
   .introHeading {
-    font-size: clamp(2.4rem, 9vw, 3.2rem);
+    font-size: clamp(2.1rem, 8vw, 2.8rem);
   }
 
   .track {

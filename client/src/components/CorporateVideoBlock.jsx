@@ -1,5 +1,8 @@
+import useHorizontalScroll from '../hooks/useHorizontalScroll';
 import { useVideos } from '../content/contentHooks';
 import { videoEmbedUrl } from '../content/videoEmbed';
+import ScrollArrows from './ScrollArrows';
+import SwipeHint from './SwipeHint';
 import styles from './CorporateVideoBlock.module.css';
 
 const FALLBACK_VIDEOS = [
@@ -30,13 +33,19 @@ function VideoCard({ title, ...video }) {
 
 export default function CorporateVideoBlock() {
   const videos = useVideos('corporate_reel', FALLBACK_VIDEOS);
+  const { trackRef, canLeft, canRight, scrollLeft, scrollRight } = useHorizontalScroll();
+
   return (
     <section className={styles.section}>
-      <div className={styles.track}>
-        {videos.map((v) => (
-          <VideoCard key={v.id} {...v} />
-        ))}
+      <div className={styles.trackWrap}>
+        <div className={styles.track} ref={trackRef}>
+          {videos.map((v) => (
+            <VideoCard key={v.id} {...v} />
+          ))}
+        </div>
+        <ScrollArrows canLeft={canLeft} canRight={canRight} onLeft={scrollLeft} onRight={scrollRight} dark />
       </div>
+      <SwipeHint show={canRight} dark />
     </section>
   );
 }

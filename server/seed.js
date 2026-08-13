@@ -136,7 +136,7 @@ function seedContent() {
 Или это знак оставить заявочку и познакомиться :)`],
 
     // --- Weddings: интро перед видео-лентой ---
-    ['weddings.videoIntro.heading', 'group.weddings', 'ВСЁ БУДЕТ ЛЕГКО\nИ\nНЕПРИНУЖДЕННО'],
+    ['weddings.videoIntro.heading', 'group.weddings', 'ВСЁ БУДЕТ ЛЕГКО\nИ НЕПРИНУЖДЕННО'],
     ['weddings.videoIntro.text', 'group.weddings', 'Никакой банальщины, пошлостей и «испанского стыда». Можете убедиться сами:'],
 
     // --- Weddings: интро перед галереей фото ---

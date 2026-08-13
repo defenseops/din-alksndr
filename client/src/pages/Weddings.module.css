@@ -259,6 +259,26 @@
   border-radius: 8px;
 }
 
+/* Плавный переход к следующему блоку — белая дуга поверх низа hero, вместо
+   резкого обрыва тёмной панели. Градиент уже пробовали (см. историю) —
+   давал некрасивую линию на стыке с фото, дуга этой проблемы не имеет. */
+.heroCurve {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: clamp(40px, 6vw, 90px);
+  z-index: 5;
+  pointer-events: none;
+  line-height: 0;
+}
+
+.heroCurve svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 /* Play button — верх-право фото-блока, ниже topBar и правее лица модели */
 .playWrap {
   position: absolute;
@@ -345,8 +365,15 @@
     width: 48px;
   }
 
-  .callLabel {
+  /* на мобильном номер телефона наезжает на лицо на фото — оставляем только
+     иконку, ссылка на WhatsApp по номеру телефона остаётся той же */
+  .callText {
     display: none;
+  }
+
+  .callIcon {
+    width: 26px;
+    height: 26px;
   }
 }
 

@@ -120,6 +120,12 @@ export default function Weddings() {
             </button>
           </div>
         </div>
+
+        <div className={styles.heroCurve} aria-hidden="true">
+          <svg viewBox="0 0 1440 100" preserveAspectRatio="none">
+            <path d="M0,100 Q720,0 1440,100 Z" fill="#fff" />
+          </svg>
+        </div>
       </section>
 
       <AboutBlock />
