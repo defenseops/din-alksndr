@@ -20,9 +20,11 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => cb(null, `${randomUUID()}${ALLOWED_MIME[file.mimetype] || ''}`),
 });
 
+const MAX_PHOTO_SIZE = 20 * 1024 * 1024;
+
 const upload = multer({
   storage,
-  limits: { fileSize: 8 * 1024 * 1024 },
+  limits: { fileSize: MAX_PHOTO_SIZE },
   fileFilter: (req, file, cb) => {
     if (!ALLOWED_MIME[file.mimetype]) {
       return cb(new Error('Разрешены только JPG, PNG и WEBP.'));
@@ -33,6 +35,9 @@ const upload = multer({
 
 router.post('/', (req, res) => {
   upload.single('photo')(req, res, (err) => {
+    if (err?.code === 'LIMIT_FILE_SIZE') {
+      return res.status(400).json({ error: `Файл слишком большой (максимум ${MAX_PHOTO_SIZE / 1024 / 1024} МБ).` });
+    }
     if (err) return res.status(400).json({ error: err.message });
     if (!req.file) return res.status(400).json({ error: 'Файл не получен.' });
 
