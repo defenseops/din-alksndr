@@ -212,6 +212,15 @@
   background: #2b2b2b;
 }
 
+.iconBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.iconBtn:disabled:hover {
+  background: #222;
+}
+
 .iconBtnDanger {
   composes: iconBtn;
   color: #ff8080;

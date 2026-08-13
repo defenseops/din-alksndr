@@ -55,6 +55,7 @@ function AddVideoForm({ section, onAdded }) {
 export default function VideosTab() {
   const [videos, setVideos] = useState({});
   const [loading, setLoading] = useState(true);
+  const [reorderingId, setReorderingId] = useState(null);
 
   useEffect(() => {
     adminApi.getVideos().then((data) => {
@@ -78,12 +79,15 @@ export default function VideosTab() {
   };
 
   const handleReorder = async (section, id, direction) => {
+    setReorderingId(id);
     try {
       await adminApi.reorderVideo(id, direction);
       const data = await adminApi.getVideos();
       setVideos(data);
     } catch (err) {
       alert(`Не удалось изменить порядок: ${err.message}`);
+    } finally {
+      setReorderingId(null);
     }
   };
 
@@ -109,8 +113,9 @@ export default function VideosTab() {
         <div className={styles.sectionBlock} key={s.key}>
           <h2 className={styles.sectionHeading}>{s.label}</h2>
           <div className={styles.videoGrid}>
-            {(videos[s.key] || []).map((v) => {
+            {(videos[s.key] || []).map((v, i, arr) => {
               const thumb = youtubeThumbnail(v);
+              const busy = reorderingId === v.id;
               return (
                 <div className={styles.videoCard} key={v.id}>
                   <div className={styles.thumbWrap}>
@@ -119,8 +124,22 @@ export default function VideosTab() {
                   <div className={styles.cardBody}>
                     <p className={styles.cardTitle}>{v.title || '—'}</p>
                     <div className={styles.cardActions}>
-                      <button className={styles.iconBtn} onClick={() => handleReorder(s.key, v.id, 'up')}>↑</button>
-                      <button className={styles.iconBtn} onClick={() => handleReorder(s.key, v.id, 'down')}>↓</button>
+                      <button
+                        className={styles.iconBtn}
+                        onClick={() => handleReorder(s.key, v.id, 'up')}
+                        disabled={i === 0 || !!reorderingId}
+                        title={i === 0 ? 'Уже первое в списке' : undefined}
+                      >
+                        {busy ? '…' : '↑'}
+                      </button>
+                      <button
+                        className={styles.iconBtn}
+                        onClick={() => handleReorder(s.key, v.id, 'down')}
+                        disabled={i === arr.length - 1 || !!reorderingId}
+                        title={i === arr.length - 1 ? 'Уже последнее в списке' : undefined}
+                      >
+                        {busy ? '…' : '↓'}
+                      </button>
                       <button className={styles.iconBtn} onClick={() => handleRename(s.key, v.id, v.title)}>Название</button>
                       <button className={styles.iconBtnDanger} onClick={() => handleDelete(s.key, v.id)}>Удалить</button>
                     </div>

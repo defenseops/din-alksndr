@@ -51,6 +51,7 @@ function UploadButton({ section, onUploaded }) {
 export default function PhotosTab() {
   const [photos, setPhotos] = useState({});
   const [loading, setLoading] = useState(true);
+  const [reorderingId, setReorderingId] = useState(null);
 
   useEffect(() => {
     adminApi.getPhotos().then((data) => {
@@ -74,12 +75,15 @@ export default function PhotosTab() {
   };
 
   const handleReorder = async (section, id, direction) => {
+    setReorderingId(id);
     try {
       await adminApi.reorderPhoto(id, direction);
       const data = await adminApi.getPhotos();
       setPhotos(data);
     } catch (err) {
       alert(`Не удалось изменить порядок: ${err.message}`);
+    } finally {
+      setReorderingId(null);
     }
   };
 
@@ -103,15 +107,29 @@ export default function PhotosTab() {
         <div className={styles.sectionBlock} key={s.key}>
           <h2 className={styles.sectionHeading}>{s.label}</h2>
           <div className={styles.photoGrid}>
-            {(photos[s.key] || []).map((p) => (
+            {(photos[s.key] || []).map((p, i, arr) => (
               <div className={styles.photoCard} key={p.id}>
                 <div className={styles.thumbWrap}>
                   <img src={resolvePhotoUrl(p.file_path)} alt="" />
                 </div>
                 <div className={styles.cardBody}>
                   <div className={styles.cardActions}>
-                    <button className={styles.iconBtn} onClick={() => handleReorder(s.key, p.id, 'up')}>↑</button>
-                    <button className={styles.iconBtn} onClick={() => handleReorder(s.key, p.id, 'down')}>↓</button>
+                    <button
+                      className={styles.iconBtn}
+                      onClick={() => handleReorder(s.key, p.id, 'up')}
+                      disabled={i === 0 || !!reorderingId}
+                      title={i === 0 ? 'Уже первое в списке' : undefined}
+                    >
+                      {reorderingId === p.id ? '…' : '↑'}
+                    </button>
+                    <button
+                      className={styles.iconBtn}
+                      onClick={() => handleReorder(s.key, p.id, 'down')}
+                      disabled={i === arr.length - 1 || !!reorderingId}
+                      title={i === arr.length - 1 ? 'Уже последнее в списке' : undefined}
+                    >
+                      {reorderingId === p.id ? '…' : '↓'}
+                    </button>
                     {s.hasWide && (
                       <button className={styles.iconBtn} onClick={() => handleToggleWide(s.key, p.id, !p.wide)}>
                         {p.wide ? 'wide ✓' : 'wide'}
