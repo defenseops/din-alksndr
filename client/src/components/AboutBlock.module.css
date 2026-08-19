@@ -140,6 +140,8 @@
     max-height: 60vh;
     flex-shrink: 0;
     overflow: hidden;
+    /* верх фото скруглён дугой, чтобы мягко продолжить heroCurve с первого блока */
+    border-radius: 50% 50% 0 0 / clamp(24px, 8vw, 48px) clamp(24px, 8vw, 48px) 0 0;
   }
 
   .photo {
