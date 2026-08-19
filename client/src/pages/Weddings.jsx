@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import PlayButton from '../components/PlayButton';
 import WeddingsIntro from '../components/WeddingsIntro';
@@ -17,11 +18,19 @@ import styles from './Weddings.module.css';
 
 const FALLBACK_HERO_VIDEO = [{ id: 1, provider: 'youtube', external_id: 'nmjFyDe8vcw' }];
 
+const FALLBACK_NAV_LINKS = [
+  { label: 'ГЛАВНАЯ', to: '/' },
+  { label: 'СВАДЬБЫ', to: '/weddings' },
+  { label: 'КОРПОРАТИВЫ', to: '/corporate' },
+];
+
 export default function Weddings() {
   const [introDone, setIntroDone] = useState(false);
   const [quizOpen, setQuizOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [videoOpen, setVideoOpen] = useState(false);
+  const { pathname } = useLocation();
+  const navLinks = useContent('nav.links', FALLBACK_NAV_LINKS);
   // hero-видео = первое (по порядку) видео из секции weddings_reel — тот же список,
   // что показывает VideoBlock, чтобы админ управлял этим видео в одном месте.
   const [heroVideo] = useVideos('weddings_reel', FALLBACK_HERO_VIDEO);
@@ -49,6 +58,20 @@ export default function Weddings() {
         <meta property="og:url" content="https://din-aleksndr.kz/weddings" />
       </Helmet>
       {!introDone && <WeddingsIntro onComplete={() => setIntroDone(true)} />}
+
+      <header className={styles.navHeader}>
+        <nav className={styles.navList}>
+          {navLinks.map(({ label, to }) => (
+            <Link
+              key={to}
+              to={to}
+              className={`${styles.navLink} ${pathname === to ? styles.navLinkActive : ''}`}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+      </header>
 
       {/* hamburger */}
       <button className={styles.hamburger} onClick={() => setMenuOpen(true)}>

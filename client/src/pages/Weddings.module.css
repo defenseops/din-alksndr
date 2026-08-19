@@ -187,6 +187,50 @@
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7), 0 10px 54px rgba(255, 255, 255, 0.5);
 }
 
+/* nav header — как на /corporate: видим на десктопе, вместо гамбургера */
+.navHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  display: flex;
+  justify-content: center;
+  padding: 28px 7vw;
+}
+
+.navList {
+  display: flex;
+  gap: 48px;
+}
+
+.navLink {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.navLink:hover {
+  color: #fff;
+}
+
+.navLinkActive {
+  color: #fff;
+  border-bottom: 1px solid #c9a96e;
+  padding-bottom: 4px;
+}
+
+@media (max-width: 1024px) {
+  .navHeader {
+    display: none;
+  }
+}
+
+/* hamburger — виден только на узких экранах, где нет navHeader */
 .hamburger {
   position: fixed;
   top: 20px;
@@ -198,7 +242,7 @@
   background: #0a0a0a;
   border: none;
   cursor: pointer;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -289,6 +333,10 @@
 }
 
 @media (max-width: 1024px) {
+  .hamburger {
+    display: flex;
+  }
+
   .weddings {
     flex-direction: column;
   }
