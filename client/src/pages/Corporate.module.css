@@ -3,9 +3,9 @@
   width: 100%;
   height: 100vh;
   background:
-    radial-gradient(ellipse 70% 60% at 82% 45%, rgba(200, 24, 24, 0.55), transparent 65%),
+    radial-gradient(ellipse 70% 60% at 82% 45%, rgba(225, 40, 40, 0.6), transparent 65%),
     radial-gradient(ellipse 50% 50% at 8% 12%, rgba(255, 255, 255, 0.05), transparent 60%),
-    linear-gradient(150deg, #2a1616 0%, #0d0a0a 45%, #0a0a0a 100%);
+    linear-gradient(150deg, #7a1a1a 0%, #4a1010 50%, #1a0808 100%);
   display: flex;
   align-items: center;
   overflow: hidden;
@@ -118,6 +118,8 @@
   object-fit: contain;
   object-position: center bottom;
   display: block;
+  -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 70%, transparent 100%);
 }
 
 .videoModal {
@@ -168,8 +170,8 @@
     min-height: 100vh;
     padding-top: 16vh;
     background:
-      radial-gradient(ellipse 90% 45% at 50% 18%, rgba(200, 24, 24, 0.55), transparent 65%),
-      linear-gradient(180deg, #2a1616 0%, #0d0a0a 40%, #0a0a0a 100%);
+      radial-gradient(ellipse 90% 45% at 50% 18%, rgba(225, 40, 40, 0.6), transparent 65%),
+      linear-gradient(180deg, #7a1a1a 0%, #4a1010 50%, #1a0808 100%);
   }
 
   .heroContent {
