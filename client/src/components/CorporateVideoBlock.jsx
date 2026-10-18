@@ -5,10 +5,6 @@ import ScrollArrows from './ScrollArrows';
 import SwipeHint from './SwipeHint';
 import styles from './CorporateVideoBlock.module.css';
 
-const FALLBACK_VIDEOS = [
-  { id: 1, provider: 'youtube', external_id: '680OIw2WA1A', title: 'КОРПОРАТИВ\nДЛЯ BCC' },
-];
-
 function VideoCard({ title, ...video }) {
   return (
     <div className={styles.card}>
@@ -31,8 +27,15 @@ function VideoCard({ title, ...video }) {
   );
 }
 
+// Блок показывается только когда в админке есть видео — без них он не рендерится вовсе
+// (и до ответа API тоже, чтобы не мелькал).
 export default function CorporateVideoBlock() {
-  const videos = useVideos('corporate_reel', FALLBACK_VIDEOS);
+  const videos = useVideos('corporate_reel', []);
+  if (!videos.length) return null;
+  return <VideoTrack videos={videos} />;
+}
+
+function VideoTrack({ videos }) {
   const { trackRef, canLeft, canRight, scrollLeft, scrollRight } = useHorizontalScroll();
   // если видео помещаются целиком (скроллить некуда) — центрируем, а не жмём к левому краю;
   // как только видео станет больше и появится реальный скролл, снова уходим к flex-start
