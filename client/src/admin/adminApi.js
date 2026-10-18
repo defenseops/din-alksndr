@@ -28,15 +28,15 @@ export const adminApi = {
       method: 'POST',
       body: JSON.stringify({ section, url, title }),
     }),
-  reorderVideo: (id, direction) =>
-    request(`/api/admin/videos/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ direction }),
-    }),
   renameVideo: (id, title) =>
     request(`/api/admin/videos/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({ title }),
+    }),
+  saveVideoOrder: (section, ids) =>
+    request('/api/admin/videos/order', {
+      method: 'PUT',
+      body: JSON.stringify({ section, ids }),
     }),
   deleteVideo: (id) => request(`/api/admin/videos/${id}`, { method: 'DELETE' }),
 
@@ -48,15 +48,16 @@ export const adminApi = {
     if (wide) formData.append('wide', 'true');
     return request('/api/admin/photos', { method: 'POST', body: formData });
   },
-  reorderPhoto: (id, direction) =>
-    request(`/api/admin/photos/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ direction }),
-    }),
   toggleWidePhoto: (id, wide) =>
     request(`/api/admin/photos/${id}`, {
       method: 'PATCH',
       body: JSON.stringify({ wide }),
+    }),
+  // sections: { section: [id, ...] } — можно сразу несколько разделов (перенос между рядами)
+  savePhotoOrder: (sections) =>
+    request('/api/admin/photos/order', {
+      method: 'PUT',
+      body: JSON.stringify({ sections }),
     }),
   deletePhoto: (id) => request(`/api/admin/photos/${id}`, { method: 'DELETE' }),
 

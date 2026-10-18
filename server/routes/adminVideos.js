@@ -35,24 +35,35 @@ router.post('/', (req, res) => {
   res.status(201).json(video);
 });
 
+// Сохраняет порядок раздела целиком (drag & drop в админке): { section, ids: [id, ...] }.
+// ids должны в точности совпадать с видео раздела, иначе 409 — список в админке устарел.
+router.put('/order', (req, res) => {
+  const { section, ids } = req.body || {};
+  if (!ALLOWED_SECTIONS.includes(section) || !Array.isArray(ids)) {
+    return res.status(400).json({ error: 'Некорректный порядок.' });
+  }
+
+  const sent = ids.map(Number);
+  const existing = db.prepare('SELECT id FROM videos WHERE section = ?').all(section).map((r) => r.id);
+  const sentSet = new Set(sent);
+  if (sentSet.size !== sent.length || sent.length !== existing.length || !existing.every((id) => sentSet.has(id))) {
+    return res.status(409).json({ error: 'Список видео изменился, обновите страницу.' });
+  }
+
+  const update = db.prepare('UPDATE videos SET sort_order = ? WHERE id = ?');
+  db.transaction(() => {
+    sent.forEach((id, i) => update.run(i, id));
+  })();
+
+  res.json({ ok: true });
+});
+
 router.patch('/:id', (req, res) => {
   const video = db.prepare('SELECT * FROM videos WHERE id = ?').get(req.params.id);
   if (!video) return res.status(404).json({ error: 'Видео не найдено.' });
 
   if ('title' in req.body) {
     db.prepare('UPDATE videos SET title = ? WHERE id = ?').run(sanitizeTitle(req.body.title), video.id);
-  }
-
-  if (req.body.direction === 'up' || req.body.direction === 'down') {
-    const op = req.body.direction === 'up' ? '<' : '>';
-    const order = req.body.direction === 'up' ? 'DESC' : 'ASC';
-    const neighbor = db.prepare(
-      `SELECT * FROM videos WHERE section = ? AND sort_order ${op} ? ORDER BY sort_order ${order} LIMIT 1`
-    ).get(video.section, video.sort_order);
-    if (neighbor) {
-      db.prepare('UPDATE videos SET sort_order = ? WHERE id = ?').run(neighbor.sort_order, video.id);
-      db.prepare('UPDATE videos SET sort_order = ? WHERE id = ?').run(video.sort_order, neighbor.id);
-    }
   }
 
   const updated = db.prepare('SELECT id, section, provider, external_id, title, sort_order FROM videos WHERE id = ?').get(video.id);

@@ -60,24 +60,54 @@ router.post('/', (req, res) => {
   });
 });
 
+// Сохраняет порядок целиком (drag & drop в админке): { sections: { section: [id, ...] } }.
+// Фото может переехать между разделами (верхний/нижний ряд корпоративов) — section обновляется.
+// Переданные id должны в точности совпадать со всеми фото этих разделов, иначе 409:
+// значит админка показывает устаревший список и должна его перезагрузить.
+router.put('/order', (req, res) => {
+  const sections = req.body?.sections;
+  if (!sections || typeof sections !== 'object' || Array.isArray(sections)) {
+    return res.status(400).json({ error: 'Некорректный порядок.' });
+  }
+  const names = Object.keys(sections);
+  if (!names.length || !names.every((s) => ALLOWED_SECTIONS.includes(s) && Array.isArray(sections[s]))) {
+    return res.status(400).json({ error: 'Неизвестный раздел галереи.' });
+  }
+
+  const sent = names.flatMap((s) => sections[s]).map(Number);
+  const existing = db.prepare(
+    `SELECT id FROM photos WHERE section IN (${names.map(() => '?').join(',')})`
+  ).all(...names).map((r) => r.id);
+  const sentSet = new Set(sent);
+  if (sentSet.size !== sent.length || sent.length !== existing.length || !existing.every((id) => sentSet.has(id))) {
+    return res.status(409).json({ error: 'Список фото изменился, обновите страницу.' });
+  }
+
+  // Между разделами можно переносить только ряды корпоративов (свадебная галерея — отдельно).
+  const group = (s) => (s.startsWith('corporate_gallery') ? 'corporate' : s);
+  const current = new Map(db.prepare(
+    `SELECT id, section FROM photos WHERE section IN (${names.map(() => '?').join(',')})`
+  ).all(...names).map((r) => [r.id, r.section]));
+  if (names.some((s) => sections[s].some((id) => group(current.get(Number(id))) !== group(s)))) {
+    return res.status(400).json({ error: 'Это фото нельзя перенести в другую галерею.' });
+  }
+
+  const update = db.prepare('UPDATE photos SET section = ?, sort_order = ? WHERE id = ?');
+  db.transaction(() => {
+    for (const s of names) {
+      sections[s].forEach((id, i) => update.run(s, i, Number(id)));
+    }
+  })();
+
+  res.json({ ok: true });
+});
+
 router.patch('/:id', (req, res) => {
   const photo = db.prepare('SELECT * FROM photos WHERE id = ?').get(req.params.id);
   if (!photo) return res.status(404).json({ error: 'Фото не найдено.' });
 
   if ('wide' in req.body) {
     db.prepare('UPDATE photos SET wide = ? WHERE id = ?').run(req.body.wide ? 1 : 0, photo.id);
-  }
-
-  if (req.body.direction === 'up' || req.body.direction === 'down') {
-    const op = req.body.direction === 'up' ? '<' : '>';
-    const order = req.body.direction === 'up' ? 'DESC' : 'ASC';
-    const neighbor = db.prepare(
-      `SELECT * FROM photos WHERE section = ? AND sort_order ${op} ? ORDER BY sort_order ${order} LIMIT 1`
-    ).get(photo.section, photo.sort_order);
-    if (neighbor) {
-      db.prepare('UPDATE photos SET sort_order = ? WHERE id = ?').run(neighbor.sort_order, photo.id);
-      db.prepare('UPDATE photos SET sort_order = ? WHERE id = ?').run(photo.sort_order, neighbor.id);
-    }
   }
 
   const updated = db.prepare('SELECT id, section, file_path, wide, sort_order FROM photos WHERE id = ?').get(photo.id);
